@@ -1,0 +1,12 @@
+{ 
+	int x; 
+	int y; 
+	{ 
+		float x; 
+	} 
+	{
+		int t;
+		{float _kkk; float j;}
+	}
+}
+
