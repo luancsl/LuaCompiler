@@ -3,6 +3,7 @@
 #include "arvore.h"
 #include "y.tab.h"
 
+
 no_arvore * criar_no_expressao(int op, void *dir, void *esq) {
 	no_arvore *novo = (no_arvore *)  malloc(sizeof(no_arvore));
 	novo->tipo = EXPR;
