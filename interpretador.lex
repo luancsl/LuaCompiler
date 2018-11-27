@@ -1,5 +1,6 @@
 %{
 #include <stdlib.h>
+#include <string.h>
 void yyerror(char *);
 #include "y.tab.h"
 %}
@@ -33,7 +34,7 @@ PRINT		{	return PRINT;
 			return ID;
 		}	
 
-[-+=(){};]	{	return *yytext; }
+[-+*/=(){};]	{	return *yytext; }
 
 
 
