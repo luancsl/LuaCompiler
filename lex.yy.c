@@ -297,7 +297,7 @@ static yyconst int yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    1,    1,    1,    1,    1,    1,    4,
-        4,    1,    4,    1,    4,    1,    1,    5,    5,    5,
+        4,    4,    4,    1,    4,    1,    4,    5,    5,    5,
         5,    5,    5,    5,    5,    5,    5,    1,    4,    1,
         4,    1,    1,    1,    6,    6,    6,    6,    6,    6,
         6,    6,    7,    6,    6,    6,    6,    8,    6,    9,
@@ -374,9 +374,9 @@ static char *yy_last_accepting_cpos;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "interpretador.lex"
+#line 1 ".\\interpretador.lex"
 #define INITIAL 0
-#line 2 "interpretador.lex"
+#line 2 ".\\interpretador.lex"
 #include <stdlib.h>
 #include <string.h>
 void yyerror(char *);
@@ -532,7 +532,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 12 "interpretador.lex"
+#line 12 ".\\interpretador.lex"
 
 
 
@@ -622,21 +622,21 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "interpretador.lex"
+#line 16 ".\\interpretador.lex"
 { yylval = atoi(yytext);
 		  return NUMBER;
 		}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "interpretador.lex"
+#line 21 ".\\interpretador.lex"
 {	yylval = INT;
 			return TYPE;
 		}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "interpretador.lex"
+#line 24 ".\\interpretador.lex"
 {
 			yylval = FLOAT;
 			return TYPE;
@@ -644,13 +644,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "interpretador.lex"
+#line 29 ".\\interpretador.lex"
 {	return PRINT; 
 		}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "interpretador.lex"
+#line 32 ".\\interpretador.lex"
 {
 			yylval = (int) strdup(yytext);
 			return ID;
@@ -658,22 +658,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "interpretador.lex"
+#line 37 ".\\interpretador.lex"
 {	return *yytext; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 42 "interpretador.lex"
+#line 42 ".\\interpretador.lex"
 ; /* skip whitespace */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 43 "interpretador.lex"
+#line 43 ".\\interpretador.lex"
 yyerror("invalid character");
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 44 "interpretador.lex"
+#line 44 ".\\interpretador.lex"
 ECHO;
 	YY_BREAK
 #line 680 "lex.yy.c"
@@ -1562,7 +1562,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 44 "interpretador.lex"
+#line 44 ".\\interpretador.lex"
 
 int yywrap(void) {
 return 1;

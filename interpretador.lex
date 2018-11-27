@@ -34,7 +34,7 @@ PRINT		{	return PRINT;
 			return ID;
 		}	
 
-[-+=(){};]	{	return *yytext; }
+[-+*/=(){};]	{	return *yytext; }
 
 
 

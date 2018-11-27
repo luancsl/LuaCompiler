@@ -12,6 +12,7 @@ pilha_contexto *pilha;
 
 %token TYPE INT FLOAT PRINT NUMBER ID EXPR ATTR ADD SUB
 %left '+' '-'
+%left '*' '/'
 %%
 
 
@@ -38,7 +39,12 @@ decls:
 decl:
 	TYPE	ID ';'		{	simbolo * s = criar_simbolo((char *) $2, $1); 
 					inserir_simbolo(topo_pilha(pilha), s); }
-
+    |
+    TYPE ID '=' expr ';'    {   simbolo * s = criar_simbolo((char *) $2, $1); 
+					            inserir_simbolo(topo_pilha(pilha), s);
+                                no_arvore *n = criar_no_atribuicao(s, (void *) $3);
+                                $$ = (int) n;
+                            }
 	;
 
 stmts: 
@@ -75,11 +81,17 @@ expr:
 				  }
 				}
 	| expr'+' expr		{ no_arvore *n = criar_no_expressao('+', (void *) $1, (void *) $3); 
-				  $$ = (int) n; }
+				         $$ = (int) n; }
 	| expr '-' expr		{ no_arvore *n = criar_no_expressao('-', (void *) $1, (void *) $3);
+                         $$ = (int) n; }
+    | expr '*' expr		{ no_arvore *n = criar_no_expressao('*', (void *) $1, (void *) $3);
+                         $$ = (int) n; }
+    | expr '/' expr		{ no_arvore *n = criar_no_expressao('/', (void *) $1, (void *) $3);
+                         $$ = (int) n; }
+
 //passa a referencia para a tabela de símbolos contextual com 
 //topo_pilha(pilha) 
-				  $$ = (int) n; }
+				 
 	| '(' expr ')'		{ $$ = $2; }
 	; 
 
