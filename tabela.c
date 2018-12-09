@@ -71,7 +71,7 @@ void imprimir_contexto(tabela *t) {
 	no_tabela * temp = t->primeiro;
 	printf("----------------------------------\n");
 	while(temp != NULL) {
-		if(temp->dado->tipo == INT) 
+		if(temp->dado->tipo == 1) 
 			printf("\t INT: %s (%d)\n", temp->dado->lexema, temp->dado->val.dval);
 		else
 			printf("\t FLOAT: %s (%d)\n", temp->dado->lexema, temp->dado->val.dval);	

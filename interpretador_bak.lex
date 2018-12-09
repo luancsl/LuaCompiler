@@ -14,17 +14,11 @@ identificador	{letra}({letra}|{numero})*
 function    {return FUNCTION;}
 for     {return FOR;}
 if      {return IF;}
-elseif  {return ELSEIF;}
 else    {return ELSE;}
-while   {return WHILE;}
 print	{return PRINT;}
 do      {return DO;}
 then    {return THEN;}
-true    {return TRUE;}
-false   {return FALSE;}
-nil     {return NIL;}
 end     {return END;}
-
 
 {numero}+	{ yylval = atoi(yytext);
 		  return NUMBER;
@@ -35,7 +29,7 @@ end     {return END;}
 			return ID;
 		}	
 
-[-+*/=(){},]	{	return *yytext; }
+[-+*/=(){};]	{	return *yytext; }
 
 [ \t\n] 	; /* skip whitespace */
 

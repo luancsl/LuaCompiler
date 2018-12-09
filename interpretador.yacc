@@ -10,7 +10,7 @@ pilha_contexto *pilha;
 
 %}
 
-%token TYPE INT FLOAT PRINT NUMBER ID EXPR ATTR ADD SUB
+%token PRINT NUMBER ID END IF ELSEIF ELSE WHILE FOR THEN DO TRUE FALSE NIL FUNCTION EXPR ATTR ADD SUB
 %left '+' '-'
 %left '*' '/'
 %%
@@ -18,82 +18,113 @@ pilha_contexto *pilha;
 
 program:
 			
-	program bloco		{ }
+	program expr		            {}
 	|
-	; 	
+	;
+
+expr:
+    Literal                         {}
+    |attr                           {}
+    |Call                           {}
+    |Operator                       {}
+    |bloco                          {}
+    |'(' expr ')'		            { $$ = $2; }
+	;   
 
 bloco: 
-	'{' 			{ tabela *contexto = criar_contexto(topo_pilha(pilha));
-				  pilha = empilhar_contexto(pilha, contexto);
+	Initbloco			            { tabela *contexto = criar_contexto(topo_pilha(pilha));
+				                    pilha = empilhar_contexto(pilha, contexto);}
 
-				 }
-	decls stmts '}'		{ imprimir_contexto(topo_pilha(pilha));
-				  desempilhar_contexto(&pilha); }
+    expr END	                    { printf("novo Bloco"); imprimir_contexto(topo_pilha(pilha));
+                                    desempilhar_contexto(&pilha); }
 	;
 
-decls: 
-	decls decl		{ }
-	|
-	;
-	
-decl:
-	TYPE	ID ';'		{	simbolo * s = criar_simbolo((char *) $2, $1); 
-					inserir_simbolo(topo_pilha(pilha), s); }
-    |
-    TYPE ID '=' expr ';'    {   simbolo * s = criar_simbolo((char *) $2, $1); 
-					            inserir_simbolo(topo_pilha(pilha), s);
-                                no_arvore *n = criar_no_atribuicao(s, (void *) $3);
-                                $$ = (int) n;
-                            }
-	;
+Initbloco:
+    function                        {}
+    |if                             {}
+    |while                          {}
+    |for                            {}
+    ;
 
-stmts: 
-	stmts stmt
-	| 	
-	;
+ArgList:
+                                    {}
+    |expr                           {}
+    |ArgList ',' expr               {}
+    ;
 
-stmt:
-	expr ';'		{	}
-	| bloco
-	| attr			{	}
+ParamList:
+                                    {}
+    |ID                             {}
+    |ParamList ',' ID               {}
+    ;
 
-	;
+ElseifList:
+                                    {}
+    |ElseifList ELSEIF expr THEN    {}
+    ;
+
+Call:
+    ID                              {printf("chamadaa de id"); simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
+				                    if(s == NULL){
+					                    yyerror("Identificador não declarado");
+				                    }else  {
+					                    no_arvore *n = criar_no_expressao(ID, s, NULL);
+					                    $$ = (int) n;
+				                    }}
+    |ID '(' ArgList ')'             {printf("chamada de funcao");}
+    ;
+
+function:
+    FUNCTION ID '(' ParamList ')'   {printf("declaracao de funcao");}
+    ;
+
+else:
+                                    {}
+    |ELSE                           {}
+    ;
+if:
+    IF expr THEN ElseifList else    {printf("declaracao if");}
+    ;
+while:
+    WHILE expr DO                   {printf("declaracao while");}
+    ;
+    
+for:
+    FOR expr ',' expr DO            {printf("declaracao for simples");}
+    |FOR expr ',' expr ',' expr DO  {printf("declaracao for completo");}
+
+Literal:
+    NUMBER                          {no_arvore *n = criar_no_expressao(NUMBER, (void *) $1, NULL); 
+				                    $$ = (int) n;}
+    |TRUE                           {}
+    |FALSE                          {}
+    ;
+
+Operator:
+     expr '+' expr		            { no_arvore *n = criar_no_expressao('+', (void *) $1, (void *) $3); 
+				                    $$ = (int) n; }
+	| expr '-' expr		            { no_arvore *n = criar_no_expressao('-', (void *) $1, (void *) $3);
+                                    $$ = (int) n; }
+    | expr '*' expr		            { no_arvore *n = criar_no_expressao('*', (void *) $1, (void *) $3);
+                                    $$ = (int) n; }
+    | expr '/' expr		            { no_arvore *n = criar_no_expressao('/', (void *) $1, (void *) $3);
+                                    $$ = (int) n; }
 
 attr: 
-	ID '=' expr ';'		{ simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
-				  if(s == NULL)
-					yyerror("Identificador não declarado");
-				  else  {
-					no_arvore *n = criar_no_atribuicao(s, (void *) $3);
-					$$ = (int) n;
-				  }
-				}
-expr:
+	ID '=' expr 		            { printf("Nova atribuicao"); simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
+                                    if(s == NULL){
+                                        s = criar_simbolo((char *) $1, 1); 
+                                        inserir_simbolo(topo_pilha(pilha), s);
+                                    }
+					                no_arvore *n = criar_no_atribuicao(s, (void *) $3);
+					                $$ = (int) n;
+				                    }
 
-	 NUMBER			{ no_arvore *n = criar_no_expressao(NUMBER, (void *) $1, NULL); 
-				  $$ = (int) n; }
-	| ID			{ simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
-				  if(s == NULL)
-					yyerror("Identificador não declarado");
-				  else  {
-					no_arvore *n = criar_no_expressao(ID, s, NULL);
-					$$ = (int) n;
-				  }
-				}
-	| expr'+' expr		{ no_arvore *n = criar_no_expressao('+', (void *) $1, (void *) $3); 
-				         $$ = (int) n; }
-	| expr '-' expr		{ no_arvore *n = criar_no_expressao('-', (void *) $1, (void *) $3);
-                         $$ = (int) n; }
-    | expr '*' expr		{ no_arvore *n = criar_no_expressao('*', (void *) $1, (void *) $3);
-                         $$ = (int) n; }
-    | expr '/' expr		{ no_arvore *n = criar_no_expressao('/', (void *) $1, (void *) $3);
-                         $$ = (int) n; }
 
 //passa a referencia para a tabela de símbolos contextual com 
 //topo_pilha(pilha) 
 				 
-	| '(' expr ')'		{ $$ = $2; }
-	; 
+	
 
 %%
 
