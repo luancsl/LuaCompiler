@@ -39,29 +39,47 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     TYPE = 258,
-     INT = 259,
-     FLOAT = 260,
-     PRINT = 261,
-     NUMBER = 262,
-     ID = 263,
-     EXPR = 264,
-     ATTR = 265,
-     ADD = 266,
-     SUB = 267
+     PRINT = 258,
+     NUMBER = 259,
+     ID = 260,
+     END = 261,
+     IF = 262,
+     ELSEIF = 263,
+     ELSE = 264,
+     WHILE = 265,
+     FOR = 266,
+     THEN = 267,
+     DO = 268,
+     TRUE = 269,
+     FALSE = 270,
+     NIL = 271,
+     FUNCTION = 272,
+     EXPR = 273,
+     ATTR = 274,
+     ADD = 275,
+     SUB = 276
    };
 #endif
 /* Tokens.  */
-#define TYPE 258
-#define INT 259
-#define FLOAT 260
-#define PRINT 261
-#define NUMBER 262
-#define ID 263
-#define EXPR 264
-#define ATTR 265
-#define ADD 266
-#define SUB 267
+#define PRINT 258
+#define NUMBER 259
+#define ID 260
+#define END 261
+#define IF 262
+#define ELSEIF 263
+#define ELSE 264
+#define WHILE 265
+#define FOR 266
+#define THEN 267
+#define DO 268
+#define TRUE 269
+#define FALSE 270
+#define NIL 271
+#define FUNCTION 272
+#define EXPR 273
+#define ATTR 274
+#define ADD 275
+#define SUB 276
 
 
 
