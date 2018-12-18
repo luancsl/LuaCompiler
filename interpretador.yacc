@@ -23,11 +23,12 @@ program:
 	;
 
 bloco: 
-	Initbloco			            { tabela *contexto = criar_contexto(topo_pilha(pilha));
-				                    pilha = empilhar_contexto(pilha, contexto);}
-
-    stmts 	                    { printf("novo Bloco"); imprimir_contexto(topo_pilha(pilha));
-                                    desempilhar_contexto(&pilha); }
+	stmts			                { tabela *contexto = criar_contexto(topo_pilha(pilha));
+				                    pilha = empilhar_contexto(pilha, contexto);
+                                    
+                                    printf("novo Bloco"); imprimir_contexto(topo_pilha(pilha));
+                                    desempilhar_contexto(&pilha);
+                                    }
 	;
 
 stmts: 
@@ -37,6 +38,10 @@ stmts:
 
 stmt:
 	expr		                    {}
+    |if
+    |while
+    |for
+    |function
 	| bloco                         {}
 	| attr			                {}
 	;
