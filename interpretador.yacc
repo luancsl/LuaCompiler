@@ -18,49 +18,66 @@ pilha_contexto *pilha;
 
 program:
 			
-	program expr		            {}
+	program bloco		            {}
 	|
 	;
-
-expr:
-    Literal                         {}
-    |attr                           {}
-    |Call                           {}
-    |Operator                       {}
-    |bloco                          {}
-    |'(' expr ')'		            { $$ = $2; }
-	;   
 
 bloco: 
 	Initbloco			            { tabela *contexto = criar_contexto(topo_pilha(pilha));
 				                    pilha = empilhar_contexto(pilha, contexto);}
 
-    expr END	                    { printf("novo Bloco"); imprimir_contexto(topo_pilha(pilha));
+    stmts 	                    { printf("novo Bloco"); imprimir_contexto(topo_pilha(pilha));
                                     desempilhar_contexto(&pilha); }
 	;
 
-Initbloco:
-    function                        {}
-    |if                             {}
-    |while                          {}
-    |for                            {}
+stmts: 
+	stmts stmt                      {}
+	| 	                            {}
+	;
+
+stmt:
+	expr		                    {}
+	| bloco                         {}
+	| attr			                {}
+	;
+
+
+if:
+    IF expr THEN bloco END          {printf("declaracao if");}
     ;
 
-ArgList:
-                                    {}
-    |expr                           {}
-    |ArgList ',' expr               {}
+while:
+    WHILE expr DO bloco END         {printf("declaracao while");}
+    ;
+    
+for:
+    FOR expr ',' expr DO bloco END   {printf("declaracao for simples");}
+    ;
+
+function:
+    FUNCTION ID '(' Param ')'    {printf("declaracao de funcao");}
+    ;
+
+Param:
+    ParamList                       {}
+    |                               {}
     ;
 
 ParamList:
-                                    {}
-    |ID                             {}
-    |ParamList ',' ID               {}
+    ID                              {}
+    |ID ',' ParamList               {}
     ;
 
-ElseifList:
-                                    {}
-    |ElseifList ELSEIF expr THEN    {}
+expr:
+    Literal                         {}
+    |Call                           {}
+    |Operator                       {}
+    |'(' expr ')'		            { $$ = $2; }
+	;  
+    
+Literal:
+    NUMBER                          {no_arvore *n = criar_no_expressao(NUMBER, (void *) $1, NULL); 
+				                    $$ = (int) n;}
     ;
 
 Call:
@@ -71,33 +88,17 @@ Call:
 					                    no_arvore *n = criar_no_expressao(ID, s, NULL);
 					                    $$ = (int) n;
 				                    }}
-    |ID '(' ArgList ')'             {printf("chamada de funcao");}
+    |ID '(' Arg ')'             {printf("chamada de funcao");}
     ;
 
-function:
-    FUNCTION ID '(' ParamList ')'   {printf("declaracao de funcao");}
+Arg:
+    ArgList                         {}
+    |                               {}
     ;
 
-else:
-                                    {}
-    |ELSE                           {}
-    ;
-if:
-    IF expr THEN ElseifList else    {printf("declaracao if");}
-    ;
-while:
-    WHILE expr DO                   {printf("declaracao while");}
-    ;
-    
-for:
-    FOR expr ',' expr DO            {printf("declaracao for simples");}
-    |FOR expr ',' expr ',' expr DO  {printf("declaracao for completo");}
-
-Literal:
-    NUMBER                          {no_arvore *n = criar_no_expressao(NUMBER, (void *) $1, NULL); 
-				                    $$ = (int) n;}
-    |TRUE                           {}
-    |FALSE                          {}
+ArgList:
+    expr                            {}
+    |expr ',' ArgList               {}
     ;
 
 Operator:
@@ -123,8 +124,6 @@ attr:
 
 //passa a referencia para a tabela de símbolos contextual com 
 //topo_pilha(pilha) 
-				 
-	
 
 %%
 
