@@ -1,5 +1,5 @@
 echo off
 cls
 lex interpretador.lex
-bison -dy interpretador.yacc
-gcc -o program lex.yy.c y.tab.c y.tab.h arvore.c arvore.h tabela.c tabela.h
+bison -dy -v interpretador.yacc
+gcc -o program lex.yy.c y.tab.c y.tab.h arvore.c arvore.h tabela.c tabela.h tabelaNumero.c tabelaNumero.h codigo_intermediario.c codigo_intermediario.h

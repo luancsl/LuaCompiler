@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "tabela.h"
 #include "arvore.h"
+#include "codigo_intermediario.h"
 
 int yylex(void);
 void yyerror(char *);
@@ -10,9 +11,8 @@ pilha_contexto *pilha;
 
 %}
 
-%token PRINT NUMBER ID END IF ELSE FOR FUNCTION EXPR ATTR ADD SUB
+%token TYPE INT FLOAT PRINT NUMBER ID EXPR ATTR ADD SUB
 %left '+' '-'
-%left '*' '/'
 %%
 
 
@@ -23,28 +23,24 @@ program:
 	; 	
 
 bloco: 
-	initbloco			{ tabela *contexto = criar_contexto(topo_pilha(pilha));
+	'{' 			{ tabela *contexto = criar_contexto(topo_pilha(pilha));
 				  pilha = empilhar_contexto(pilha, contexto);
 
 				 }
-	stmts fim	{ imprimir_contexto(topo_pilha(pilha));
+	decls stmts '}'		{ imprimir_contexto(topo_pilha(pilha));
 				  desempilhar_contexto(&pilha); }
 	;
 
+decls: 
+	decls decl		{ }
+	|
+	;
+	
+decl:
+	TYPE	ID ';'		{	simbolo * s = criar_simbolo((char *) $2, $1); 
+					inserir_simbolo(topo_pilha(pilha), s); }
 
-fim:
-    END
-    |
-    ;
-
-initbloco:
-    funcao
-    |
-    ;
-funcao:
-    FUNCTION ID '('expr')'
-    ;
-
+	;
 
 stmts: 
 	stmts stmt
@@ -52,21 +48,20 @@ stmts:
 	;
 
 stmt:
-	expr		{	}
+	expr ';'		{	gerar_codigo((no_arvore *) $1); }
 	| bloco
-	| attr			{	}
+	| attr			{	gerar_codigo((no_arvore *) $1); }
 
 	;
 
 attr: 
-	ID '=' expr 		{ simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
-                    if(s == NULL){
-                        s = criar_simbolo((char *) $1, 1); 
-					    inserir_simbolo(topo_pilha(pilha), s);
-                    }
+	ID '=' expr ';'		{ simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
+				  if(s == NULL)
+					yyerror("Identificador não declarado");
+				  else  {
 					no_arvore *n = criar_no_atribuicao(s, (void *) $3);
 					$$ = (int) n;
-				  
+				  }
 				}
 expr:
 
@@ -81,17 +76,11 @@ expr:
 				  }
 				}
 	| expr'+' expr		{ no_arvore *n = criar_no_expressao('+', (void *) $1, (void *) $3); 
-				         $$ = (int) n; }
+				  $$ = (int) n; }
 	| expr '-' expr		{ no_arvore *n = criar_no_expressao('-', (void *) $1, (void *) $3);
-                         $$ = (int) n; }
-    | expr '*' expr		{ no_arvore *n = criar_no_expressao('*', (void *) $1, (void *) $3);
-                         $$ = (int) n; }
-    | expr '/' expr		{ no_arvore *n = criar_no_expressao('/', (void *) $1, (void *) $3);
-                         $$ = (int) n; }
-
 //passa a referencia para a tabela de símbolos contextual com 
 //topo_pilha(pilha) 
-				 
+				  $$ = (int) n; }
 	| '(' expr ')'		{ $$ = $2; }
 	; 
 

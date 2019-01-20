@@ -19,10 +19,45 @@ typedef struct t_attr {
 	void *expressao;
 } t_attr;
 
+typedef struct t_ifelse {
+    //int tipo; //if ou ifelse
+    void *expr_cond;
+    void *stmt_if;
+    void *stmt_else;   
+} t_ifelse;
+
+typedef struct t_while {
+    void *expr_cond;
+    void *stmt_while;   
+} t_while;
+
+typedef struct t_stmt {
+    struct no_arvore* no_stmt;
+    void *stmt;
+} t_stmt;
+
+typedef struct t_bloco {
+    void *stmt;
+}t_bloco;
+
+typedef struct t_print {
+    void *expr_print;   
+} t_print;
+
+typedef struct t_read {
+   
+} t_read;
+
 //Simula a superclasse abstrata 
 typedef union valor_sintatico {
-	t_expr *expr;
-	t_attr *attr;
+	t_expr      *v_expr;
+	t_attr      *v_attr;
+    t_read      *v_read;
+    t_print     *v_print;
+    t_ifelse    *v_ifelse;
+    t_while     *v_while;
+    t_bloco     *v_bloco;
+    t_stmt      *v_stmt;
 } valor_sintatico;
 
 typedef struct no_arvore {
@@ -36,6 +71,26 @@ t_expr * criar_expressao(int op, void *dir, void *esq);
 
 no_arvore * criar_no_atribuicao(simbolo *resultado, void *expressao);
 t_attr * criar_atribuicao(simbolo *resultado, void *expressao);
+
+no_arvore * criar_no_ifelse(void *A_expr_cond, void *A_stmt_if, void *A_stmt_else);
+t_ifelse * criar_ifelse(void *A_expr_cond, void *A_stmt_if, void *A_stmt_else);
+
+no_arvore * criar_no_while(void *A_expr_cond, void *A_stmt_while);
+t_while * criar_while(void *A_expr_cond, void *A_stmt_while);
+
+no_arvore * criar_no_stmt(no_arvore *A_no_stmt, void *A_stmt);
+t_stmt * criar_stmt(no_arvore *A_no_stmt, void *A_stmt);
+
+no_arvore * criar_no_bloco(void *A_stmt);
+t_bloco * criar_bloco(void *A_stmt);
+
+no_arvore * criar_no_print(void *A_expr_print);
+t_print * criar_print(void *A_expr_print);
+
+no_arvore * criar_no_read();
+t_read * criar_read();
+
+void print_arvore(no_arvore *raiz);
 
 
 #endif

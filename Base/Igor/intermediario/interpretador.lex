@@ -1,6 +1,5 @@
 %{
 #include <stdlib.h>
-#include <string.h>
 void yyerror(char *);
 #include "y.tab.h"
 %}
@@ -11,17 +10,22 @@ identificador	{letra}({letra}|{numero})*
 
 %%
 
-function    {return FUNCTION;}
-for     {return FOR;}
-if      {return IF;}
-else    {return ELSE;}
-print	{return PRINT;}
-do      {return DO;}
-then    {return THEN;}
-end     {return END;}
+
 
 {numero}+	{ yylval = atoi(yytext);
 		  return NUMBER;
+		}
+
+
+int		{	yylval = INT;
+			return TYPE;
+		}
+float		{
+			yylval = FLOAT;
+			return TYPE;
+		}
+
+PRINT		{	return PRINT; 
 		}
 
 {identificador}	{
@@ -29,10 +33,12 @@ end     {return END;}
 			return ID;
 		}	
 
-[-+*/=(){};]	{	return *yytext; }
+[-+=(){};]	{	return *yytext; }
+
+
+
 
 [ \t\n] 	; /* skip whitespace */
-
 . 	yyerror("invalid character");
 %%
 int yywrap(void) {

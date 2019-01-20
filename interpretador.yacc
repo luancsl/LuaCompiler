@@ -1,7 +1,9 @@
 %{
 #include <stdio.h>
 #include "tabela.h"
+#include "tabelaNumero.h"
 #include "arvore.h"
+#include "codigo_intermediario.h"
 
 int yylex(void);
 void yyerror(char *);
@@ -10,11 +12,39 @@ pilha_contexto *pilha;
 
 %}
 
-%token PRINT NUMBER ID END IF ELSEIF ELSE WHILE FOR THEN DO TRUE FALSE NIL FUNCTION EXPR ATTR ADD SUB
-%left '+' '-'
-%left '*' '/'
-%%
+ 
+%token NIL
+%token PRINT
+%token READ
+%token IF THEN ELSE ELSEIF WHILE DO END
+%token BREAK   
+%token RETURN
+%token LOCAL
+%token FUNCTION
+%token NUMBER
+%token STRING
+%token ID 
+%token T_INT
+%token T_REAL
+%token BLOCO 
+%token STMT
+%token EXPR
+%token ATTR
 
+%token TRUE 
+%token FALSE 
+
+%left AND OR
+%left EQ NE BIGG LESS LE GE
+%right CONC
+%left ADD SUB
+%left MUL DIV MOD
+%left NOT
+%right '^'
+
+%nonassoc UNARY
+
+%%
 
 program:
 			
@@ -23,112 +53,149 @@ program:
 	;
 
 bloco: 
-	stmts			                { tabela *contexto = criar_contexto(topo_pilha(pilha));
-				                    pilha = empilhar_contexto(pilha, contexto);
-                                    
-                                    printf("novo Bloco"); imprimir_contexto(topo_pilha(pilha));
-                                    desempilhar_contexto(&pilha);
-                                    }
+	openc stmts closec              {}
 	;
 
+openc:
+     /* empty */                    { tabela *contexto = criar_contexto(topo_pilha(pilha));
+				                        pilha = empilhar_contexto(pilha, contexto);
+                                    }
+    ;
+
+closec:
+     /* empty */                    {imprimir_contexto(topo_pilha(pilha));
+                                        desempilhar_contexto(&pilha); 
+                                    }
+    ;
+
 stmts: 
-	stmts stmt                      {}
+	stmts stmt                      {no_arvore *n = criar_no_stmt(NULL, (void *) $2);
+                                        $$ = (long int) n;
+                                    }
 	| 	                            {}
 	;
 
 stmt:
-	expr		                    {}
-    |if
-    |while
-    |for
-    |function
-	| bloco                         {}
-	| attr			                {}
+	expr		                    {gerar_codigo((no_arvore *) $1);}
+    |print                          {gerar_codigo((no_arvore *) $1);}
+    |read                           {gerar_codigo((no_arvore *) $1);}
+    |if                             {gerar_codigo((no_arvore *) $1);}
+    |while                          {gerar_codigo((no_arvore *) $1);}
+    |function                       {}
+	|attr			                {gerar_codigo((no_arvore *) $1);}
 	;
 
-
-if:
-    IF expr THEN bloco END          {printf("declaracao if");}
-    ;
-
-while:
-    WHILE expr DO bloco END         {printf("declaracao while");}
-    ;
-    
-for:
-    FOR expr ',' expr DO bloco END   {printf("declaracao for simples");}
-    ;
-
-function:
-    FUNCTION ID '(' Param ')'    {printf("declaracao de funcao");}
-    ;
-
-Param:
-    ParamList                       {}
-    |                               {}
-    ;
-
-ParamList:
-    ID                              {}
-    |ID ',' ParamList               {}
-    ;
-
 expr:
-    Literal                         {}
-    |Call                           {}
-    |Operator                       {}
-    |'(' expr ')'		            { $$ = $2; }
-	;  
-    
-Literal:
-    NUMBER                          {no_arvore *n = criar_no_expressao(NUMBER, (void *) $1, NULL); 
-				                    $$ = (int) n;}
-    ;
-
-Call:
-    ID                              {printf("chamadaa de id"); simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
+    '(' expr ')'                    { $$ = $2; }
+    | expr EQ  expr	                {no_arvore *n = criar_no_expressao(EQ, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr LESS expr	            {no_arvore *n = criar_no_expressao(LESS, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr BIGG expr	            {no_arvore *n = criar_no_expressao(BIGG, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr NE  expr	                {no_arvore *n = criar_no_expressao(NE, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr LE  expr	                {no_arvore *n = criar_no_expressao(LE, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr GE  expr	                {no_arvore *n = criar_no_expressao(GE, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr ADD expr		            { no_arvore *n = criar_no_expressao(ADD, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n; }
+	| expr SUB expr		            { no_arvore *n = criar_no_expressao(SUB, (void *) $1, (void *) $3);
+                                    $$ = (long int) n; }
+    | expr MUL expr		            { no_arvore *n = criar_no_expressao(MUL, (void *) $1, (void *) $3);
+                                    $$ = (long int) n; }
+    | expr DIV expr		            { no_arvore *n = criar_no_expressao(DIV, (void *) $1, (void *) $3);
+                                    $$ = (long int) n; }
+    | expr MOD expr		            { no_arvore *n = criar_no_expressao(MOD, (void *) $1, (void *) $3);
+                                    $$ = (long int) n; }
+    |'-' expr %prec UNARY	        {}
+    | NUMBER                        {no_arvore *n = criar_no_expressao(NUMBER, (void *) $1, NULL); 
+                                    $$ = (int) n;}
+    | ID                            { simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
 				                    if(s == NULL){
-					                    yyerror("Identificador não declarado");
+					                    yyerror("Identificador nao declarado");
 				                    }else  {
 					                    no_arvore *n = criar_no_expressao(ID, s, NULL);
-					                    $$ = (int) n;
-				                    }}
-    |ID '(' Arg ')'             {printf("chamada de funcao");}
-    ;
-
-Arg:
-    ArgList                         {}
-    |                               {}
-    ;
-
-ArgList:
-    expr                            {}
-    |expr ',' ArgList               {}
-    ;
-
-Operator:
-     expr '+' expr		            { no_arvore *n = criar_no_expressao('+', (void *) $1, (void *) $3); 
-				                    $$ = (int) n; }
-	| expr '-' expr		            { no_arvore *n = criar_no_expressao('-', (void *) $1, (void *) $3);
-                                    $$ = (int) n; }
-    | expr '*' expr		            { no_arvore *n = criar_no_expressao('*', (void *) $1, (void *) $3);
-                                    $$ = (int) n; }
-    | expr '/' expr		            { no_arvore *n = criar_no_expressao('/', (void *) $1, (void *) $3);
-                                    $$ = (int) n; }
+					                    $$ = (long int) n;}
+                                    }
+    | STRING                        {}
+    | functioncall                  {}
+    | NIL		                    {no_arvore *n = criar_no_expressao(NIL, NULL, NULL); 
+				                    $$ = (long int) n;}
+    | TRUE                          {no_arvore *n = criar_no_expressao(TRUE, (void *) $1, NULL); 
+				                    $$ = (long int) n;}
+    | FALSE                         {no_arvore *n = criar_no_expressao(FALSE, (void *) $1, NULL); 
+				                    $$ = (long int) n;}
+    | NOT expr	                    {no_arvore *n = criar_no_expressao(NOT, (void *) $2, NULL); 
+				                    $$ = (long int) n;}
+    | expr AND expr                 {no_arvore *n = criar_no_expressao(AND, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+    | expr OR  expr                 {no_arvore *n = criar_no_expressao(OR, (void *) $1, (void *) $3); 
+				                    $$ = (long int) n;}
+	;  
 
 attr: 
-	ID '=' expr 		            { printf("Nova atribuicao"); simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
+	ID '=' expr 		            { simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) $1);
                                     if(s == NULL){
                                         s = criar_simbolo((char *) $1, 1); 
                                         inserir_simbolo(topo_pilha(pilha), s);
                                     }
 					                no_arvore *n = criar_no_atribuicao(s, (void *) $3);
-					                $$ = (int) n;
+					                $$ = (long int) n;
 				                    }
+    ;
+
+if:
+    IF expr THEN bloco END                  {no_arvore *n = criar_no_ifelse((void *) $2, (void *) $4, NULL ); 
+				                            $$ = (long int) n;}
+    | IF expr THEN bloco ELSE bloco END     {no_arvore *n = criar_no_ifelse((void *) $2, (void *) $4, (void *) $6); 
+				                            $$ = (long int) n;}
+    ;
+
+while:
+    WHILE expr DO bloco END                 {no_arvore *n = criar_no_while((void *) $2, (void *) $4); 
+				                            $$ = (long int) n;}
+    ;
+
+function:
+    FUNCTION ID '(' _param ')' bloco END  {}
+    ;
+
+_param:
+    _paramlist                       {}
+    |                               {}
+    ;
+
+_paramlist:
+    ID                              {}
+    |_paramlist ',' ID               {}
+    ;
 
 
-//passa a referencia para a tabela de símbolos contextual com 
-//topo_pilha(pilha) 
+functioncall:
+    ID '(' _arg ')'                  {}
+    ;
+
+_arg:
+    _arglist                         {}
+    |                               {}
+    ;
+
+_arglist:
+    expr                            {}
+    |_arglist ',' expr               {}
+    ;
+
+read:
+    READ                                    {no_arvore *n = criar_no_read(); 
+				                            $$ = (long int) n;}
+    ;
+
+print:
+    PRINT '(' expr ')'                      {no_arvore *n = criar_no_print((void *) $3); 
+				                            $$ = (long int) n;} 
+    ;
 
 %%
 

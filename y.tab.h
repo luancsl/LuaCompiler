@@ -39,47 +39,91 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     PRINT = 258,
-     NUMBER = 259,
-     ID = 260,
-     END = 261,
-     IF = 262,
-     ELSEIF = 263,
-     ELSE = 264,
+     NIL = 258,
+     PRINT = 259,
+     READ = 260,
+     IF = 261,
+     THEN = 262,
+     ELSE = 263,
+     ELSEIF = 264,
      WHILE = 265,
-     FOR = 266,
-     THEN = 267,
-     DO = 268,
-     TRUE = 269,
-     FALSE = 270,
-     NIL = 271,
-     FUNCTION = 272,
-     EXPR = 273,
-     ATTR = 274,
-     ADD = 275,
-     SUB = 276
+     DO = 266,
+     END = 267,
+     BREAK = 268,
+     RETURN = 269,
+     LOCAL = 270,
+     FUNCTION = 271,
+     NUMBER = 272,
+     STRING = 273,
+     ID = 274,
+     T_INT = 275,
+     T_REAL = 276,
+     BLOCO = 277,
+     STMT = 278,
+     EXPR = 279,
+     ATTR = 280,
+     TRUE = 281,
+     FALSE = 282,
+     OR = 283,
+     AND = 284,
+     GE = 285,
+     LE = 286,
+     LESS = 287,
+     BIGG = 288,
+     NE = 289,
+     EQ = 290,
+     CONC = 291,
+     SUB = 292,
+     ADD = 293,
+     MOD = 294,
+     DIV = 295,
+     MUL = 296,
+     NOT = 297,
+     UNARY = 298
    };
 #endif
 /* Tokens.  */
-#define PRINT 258
-#define NUMBER 259
-#define ID 260
-#define END 261
-#define IF 262
-#define ELSEIF 263
-#define ELSE 264
+#define NIL 258
+#define PRINT 259
+#define READ 260
+#define IF 261
+#define THEN 262
+#define ELSE 263
+#define ELSEIF 264
 #define WHILE 265
-#define FOR 266
-#define THEN 267
-#define DO 268
-#define TRUE 269
-#define FALSE 270
-#define NIL 271
-#define FUNCTION 272
-#define EXPR 273
-#define ATTR 274
-#define ADD 275
-#define SUB 276
+#define DO 266
+#define END 267
+#define BREAK 268
+#define RETURN 269
+#define LOCAL 270
+#define FUNCTION 271
+#define NUMBER 272
+#define STRING 273
+#define ID 274
+#define T_INT 275
+#define T_REAL 276
+#define BLOCO 277
+#define STMT 278
+#define EXPR 279
+#define ATTR 280
+#define TRUE 281
+#define FALSE 282
+#define OR 283
+#define AND 284
+#define GE 285
+#define LE 286
+#define LESS 287
+#define BIGG 288
+#define NE 289
+#define EQ 290
+#define CONC 291
+#define SUB 292
+#define ADD 293
+#define MOD 294
+#define DIV 295
+#define MUL 296
+#define NOT 297
+#define UNARY 298
 
 
 
