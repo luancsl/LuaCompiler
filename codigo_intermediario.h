@@ -3,13 +3,14 @@
 
 #include <string.h>
 #include "arvore.h"
+#include "lista_intermediario.h"
 
-void gerar_codigo(no_arvore * raiz);
-char * gerar_codigo_expr(no_arvore *raiz);
-void gerar_codigo_attr(no_arvore *raiz);
-void gerar_codigo_ifelse(no_arvore *raiz);
-void gerar_codigo_while(no_arvore *raiz);
-void gerar_codigo_read(no_arvore *raiz);
-void gerar_codigo_print(no_arvore *raiz);
+
+void gerar_codigo(lista* list, no_arvore * raiz);
+char * gerar_codigo_expr(lista* list, no_arvore *raiz);
+void gerar_codigo_attr(lista* list, no_arvore *raiz);
+void gerar_codigo_ifelse(lista* list, no_arvore *raiz);
+void gerar_codigo_while(lista* list, no_arvore *raiz);
+void gerar_codigo_print(lista* list, no_arvore *raiz);
 
 #endif

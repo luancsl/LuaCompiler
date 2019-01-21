@@ -4,11 +4,15 @@
 #include "tabelaNumero.h"
 #include "arvore.h"
 #include "codigo_intermediario.h"
+#include "lista_intermediario.h"
+#include "codigo_mips.h"
 
 int yylex(void);
 void yyerror(char *);
 
 pilha_contexto *pilha;
+tabela *tab_c;
+lista* list;
 
 %}
 
@@ -26,6 +30,8 @@ pilha_contexto *pilha;
 %token ID 
 %token T_INT
 %token T_REAL
+%token LAB
+%token GOTO
 %token BLOCO 
 %token STMT
 %token EXPR
@@ -53,7 +59,8 @@ program:
 	;
 
 bloco: 
-	openc stmts closec              {}
+	openc stmts closec              {no_arvore *n = criar_no_bloco((void *) $2);
+                                    $$ = (long int) n;}
 	;
 
 openc:
@@ -63,26 +70,29 @@ openc:
     ;
 
 closec:
-     /* empty */                    {imprimir_contexto(topo_pilha(pilha));
+     /* empty */                    {/* imprimir_contexto(topo_pilha(pilha)); */
                                         desempilhar_contexto(&pilha); 
                                     }
     ;
 
 stmts: 
 	stmts stmt                      {no_arvore *n = criar_no_stmt(NULL, (void *) $2);
-                                        $$ = (long int) n;
-                                    }
+                                    $$ = (long int) n;}
 	| 	                            {}
 	;
 
 stmt:
-	expr		                    {gerar_codigo((no_arvore *) $1);}
-    |print                          {gerar_codigo((no_arvore *) $1);}
-    |read                           {gerar_codigo((no_arvore *) $1);}
-    |if                             {gerar_codigo((no_arvore *) $1);}
-    |while                          {gerar_codigo((no_arvore *) $1);}
+	expr		                    {gerar_codigo((lista *) list, (no_arvore *) $1);
+                                    $$ = (long int) $1;}
+    |print                          {gerar_codigo((lista *) list, (no_arvore *) $1);
+                                    $$ = (long int) $1;}
+    |if                             {gerar_codigo((lista *) list, (no_arvore *) $1);
+                                    $$ = (long int) $1;}
+    |while                          {gerar_codigo((lista *) list, (no_arvore *) $1);
+                                    $$ = (long int) $1;}
     |function                       {}
-	|attr			                {gerar_codigo((no_arvore *) $1);}
+	|attr			                {gerar_codigo((lista *) list, (no_arvore *) $1);
+                                    $$ = (long int) $1;}
 	;
 
 expr:
@@ -133,6 +143,8 @@ expr:
 				                    $$ = (long int) n;}
     | expr OR  expr                 {no_arvore *n = criar_no_expressao(OR, (void *) $1, (void *) $3); 
 				                    $$ = (long int) n;}
+    | READ                          {no_arvore *n = criar_no_expressao(READ, NULL, NULL); 
+				                    $$ = (long int) n;}
 	;  
 
 attr: 
@@ -140,6 +152,7 @@ attr:
                                     if(s == NULL){
                                         s = criar_simbolo((char *) $1, 1); 
                                         inserir_simbolo(topo_pilha(pilha), s);
+                                        inserir_simbolo(tab_c, s);
                                     }
 					                no_arvore *n = criar_no_atribuicao(s, (void *) $3);
 					                $$ = (long int) n;
@@ -187,11 +200,6 @@ _arglist:
     |_arglist ',' expr               {}
     ;
 
-read:
-    READ                                    {no_arvore *n = criar_no_read(); 
-				                            $$ = (long int) n;}
-    ;
-
 print:
     PRINT '(' expr ')'                      {no_arvore *n = criar_no_print((void *) $3); 
 				                            $$ = (long int) n;} 
@@ -205,6 +213,11 @@ void yyerror(char *s) {
 
 int main(void) {
 	pilha = NULL;
+    tab_c = (tabela *) malloc(sizeof(tabela));
+    tab_c->pai = NULL;
+    tab_c->primeiro = NULL;
+    list = (lista *) init_lista();
 	yyparse();
+    gerar_codigo_mips(list, tab_c);
 	return 0;
 }

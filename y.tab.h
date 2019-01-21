@@ -58,28 +58,30 @@
      ID = 274,
      T_INT = 275,
      T_REAL = 276,
-     BLOCO = 277,
-     STMT = 278,
-     EXPR = 279,
-     ATTR = 280,
-     TRUE = 281,
-     FALSE = 282,
-     OR = 283,
-     AND = 284,
-     GE = 285,
-     LE = 286,
-     LESS = 287,
-     BIGG = 288,
-     NE = 289,
-     EQ = 290,
-     CONC = 291,
-     SUB = 292,
-     ADD = 293,
-     MOD = 294,
-     DIV = 295,
-     MUL = 296,
-     NOT = 297,
-     UNARY = 298
+     LAB = 277,
+     GOTO = 278,
+     BLOCO = 279,
+     STMT = 280,
+     EXPR = 281,
+     ATTR = 282,
+     TRUE = 283,
+     FALSE = 284,
+     OR = 285,
+     AND = 286,
+     GE = 287,
+     LE = 288,
+     LESS = 289,
+     BIGG = 290,
+     NE = 291,
+     EQ = 292,
+     CONC = 293,
+     SUB = 294,
+     ADD = 295,
+     MOD = 296,
+     DIV = 297,
+     MUL = 298,
+     NOT = 299,
+     UNARY = 300
    };
 #endif
 /* Tokens.  */
@@ -102,28 +104,30 @@
 #define ID 274
 #define T_INT 275
 #define T_REAL 276
-#define BLOCO 277
-#define STMT 278
-#define EXPR 279
-#define ATTR 280
-#define TRUE 281
-#define FALSE 282
-#define OR 283
-#define AND 284
-#define GE 285
-#define LE 286
-#define LESS 287
-#define BIGG 288
-#define NE 289
-#define EQ 290
-#define CONC 291
-#define SUB 292
-#define ADD 293
-#define MOD 294
-#define DIV 295
-#define MUL 296
-#define NOT 297
-#define UNARY 298
+#define LAB 277
+#define GOTO 278
+#define BLOCO 279
+#define STMT 280
+#define EXPR 281
+#define ATTR 282
+#define TRUE 283
+#define FALSE 284
+#define OR 285
+#define AND 286
+#define GE 287
+#define LE 288
+#define LESS 289
+#define BIGG 290
+#define NE 291
+#define EQ 292
+#define CONC 293
+#define SUB 294
+#define ADD 295
+#define MOD 296
+#define DIV 297
+#define MUL 298
+#define NOT 299
+#define UNARY 300
 
 
 

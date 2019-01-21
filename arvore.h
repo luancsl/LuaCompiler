@@ -44,15 +44,11 @@ typedef struct t_print {
     void *expr_print;   
 } t_print;
 
-typedef struct t_read {
-   
-} t_read;
 
 //Simula a superclasse abstrata 
 typedef union valor_sintatico {
 	t_expr      *v_expr;
 	t_attr      *v_attr;
-    t_read      *v_read;
     t_print     *v_print;
     t_ifelse    *v_ifelse;
     t_while     *v_while;
@@ -86,11 +82,6 @@ t_bloco * criar_bloco(void *A_stmt);
 
 no_arvore * criar_no_print(void *A_expr_print);
 t_print * criar_print(void *A_expr_print);
-
-no_arvore * criar_no_read();
-t_read * criar_read();
-
-void print_arvore(no_arvore *raiz);
 
 
 #endif

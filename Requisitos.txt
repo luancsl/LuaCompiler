@@ -1,15 +1,14 @@
-a) Pelo menos dois tipos de dados (inteiro e ponto flutuante). Tipo string é opcional e vale ponto extra;
+a) Pelo menos dois tipos de dados (inteiro e ponto flutuante). Tipo string ï¿½ opcional e vale ponto extra;
 b) Arrays;
-c) expressões aritméticas ( -, +, *, /, MOD), lógicas ( AND, OR e NOT) e relacionais ( Maior que, menor que, maior ou igual, menor ou igual, igual e diferente)
-d) precedência de operadores (verificar regras da linguagem) / utilização de parênteses para "alterar" a precedência;
+c) expressï¿½es aritmï¿½ticas ( -, +, *, /, MOD), lï¿½gicas ( AND, OR e NOT) e relacionais ( Maior que, menor que, maior ou igual, menor ou igual, igual e diferente)
+d) precedï¿½ncia de operadores (verificar regras da linguagem) / utilizaï¿½ï¿½o de parï¿½nteses para "alterar" a precedï¿½ncia;
 e) 1 comando condicional (if-else, switch ou equivalente);
-f) 1 comando de repetição (for, while, do ... while, repeat ou equivalente);
-g) definição e chamada de métodos ou funções;
-h) a passagem de parâmetros pode ser por valor ou por referência (escolham um);
+f) 1 comando de repetiï¿½ï¿½o (for, while, do ... while, repeat ou equivalente);
+g) definiï¿½ï¿½o e chamada de mï¿½todos ou funï¿½ï¿½es;
+h) a passagem de parï¿½metros pode ser por valor ou por referï¿½ncia (escolham um);
 i) aninhamento entre os blocos;
-j) contexto das variáveis (global, local e bloco);
-k) algum comando para exibir o valor das variáveis (print ou equivalente)
-l) algum comando para receber o valor das variáveis (scan ou equivalente)
-m) verificações de tipo de declaração de variável e tipos de expressão
-
-4. A saída do compilador deve ser um programa na linguagem mips, que será executado no simulador spim;
+j) contexto das variï¿½veis (global, local e bloco);
+k) algum comando para exibir o valor das variï¿½veis (print ou equivalente)
+l) algum comando para receber o valor das variï¿½veis (scan ou equivalente)
+m) verificaï¿½ï¿½es de tipo de declaraï¿½ï¿½o de variï¿½vel e tipos de expressï¿½o
+4. A saï¿½da do compilador deve ser um programa na linguagem mips, que serï¿½ executado no simulador spim;

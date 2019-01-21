@@ -1,9 +1,6 @@
 
-
-while(3+4*1)do
-    a = 2+5
-    print(a+2)
+if(3 != 3)then
+    print(9)
+else
+    print(10)
 end
-
-a = 3
-print(a and false)
