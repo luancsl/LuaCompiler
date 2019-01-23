@@ -38,10 +38,10 @@ typedef struct t_funcao {
     void *expr_return;   
 } t_funcao;
 
-typedef struct t_stmt {
-    struct no_arvore* no_stmt;
+typedef struct t_stmts {
+    void *stmts;
     void *stmt;
-} t_stmt;
+} t_stmts;
 
 typedef struct t_bloco {
     void *stmt;
@@ -61,7 +61,7 @@ typedef union valor_sintatico {
     t_while     *v_while;
     t_funcao    *v_funcao;
     t_bloco     *v_bloco;
-    t_stmt      *v_stmt;
+    t_stmts      *v_stmts;
 } valor_sintatico;
 
 typedef struct no_arvore {
@@ -85,8 +85,8 @@ t_while * criar_while(void *A_expr_cond, void *A_stmt_while);
 no_arvore * criar_no_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return);
 t_funcao * criar_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return);
 
-no_arvore * criar_no_stmt(no_arvore *A_no_stmt, void *A_stmt);
-t_stmt * criar_stmt(no_arvore *A_no_stmt, void *A_stmt);
+no_arvore * criar_no_stmts(void *A_stmts, void *A_stmt);
+t_stmts * criar_stmts(void *A_stmts, void *A_stmt);
 
 no_arvore * criar_no_bloco(void *A_stmt);
 t_bloco * criar_bloco(void *A_stmt);

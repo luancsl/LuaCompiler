@@ -62,7 +62,7 @@
      LAB = 278,
      GOTO = 279,
      BLOCO = 280,
-     STMT = 281,
+     STMTS = 281,
      EXPR = 282,
      ATTR = 283,
      TRUE = 284,
@@ -109,7 +109,7 @@
 #define LAB 278
 #define GOTO 279
 #define BLOCO 280
-#define STMT 281
+#define STMTS 281
 #define EXPR 282
 #define ATTR 283
 #define TRUE 284

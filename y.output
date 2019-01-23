@@ -9,7 +9,7 @@ Terminals unused in grammar
    LAB
    GOTO
    BLOCO
-   STMT
+   STMTS
    EXPR
    ATTR
    CONC
@@ -132,7 +132,7 @@ T_REAL (277)
 LAB (278)
 GOTO (279)
 BLOCO (280)
-STMT (281)
+STMTS (281)
 EXPR (282)
 ATTR (283)
 TRUE (284) 32

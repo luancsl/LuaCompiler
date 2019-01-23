@@ -82,16 +82,16 @@ t_funcao * criar_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao,
 	return novo;
 }
 
-no_arvore * criar_no_stmt(no_arvore *A_no_stmt, void *A_stmt) {
+no_arvore * criar_no_stmts(void *A_stmts, void *A_stmt) {
 	no_arvore *novo = (no_arvore *)  malloc(sizeof(no_arvore));
-	novo->tipoSintatico = STMT;
-	novo->dado.v_stmt =  criar_stmt(A_no_stmt, A_stmt);
+	novo->tipoSintatico = STMTS;
+	novo->dado.v_stmts =  criar_stmts(A_stmts, A_stmt);
 	return novo;
 }
 
-t_stmt * criar_stmt(no_arvore *A_no_stmt, void *A_stmt){ 
-	t_stmt * novo = (t_stmt *) malloc(sizeof(t_stmt));
-	novo->no_stmt = A_no_stmt; 
+t_stmts * criar_stmts(void *A_stmts, void *A_stmt){ 
+	t_stmts * novo = (t_stmts *) malloc(sizeof(t_stmts));
+	novo->stmts = A_stmts; 
     novo->stmt = A_stmt;
 	return novo;
 }

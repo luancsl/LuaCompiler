@@ -17,6 +17,7 @@ void gerar_var_mips(tabela* tab){
             temp = temp->proximo;
         }
     }
+    printf("newline: .asciiz \"\\n\"\n");
     printf("\n");
 	printf(".text\n");
     printf(".globl main\n");
@@ -170,6 +171,10 @@ void gerar_codigo_mips(lista* lista, tabela* tab){
 
                 printf("li $v0, 1\n");
                 printf("%s %s, %s\n", "move", "$a0", instr->result);
+                printf("syscall\n");
+
+                printf("li $v0, 4\n");
+                printf("%s %s, %s\n", "la", "$a0", "newline");
                 printf("syscall\n");
                 printf("\n");
                 break;

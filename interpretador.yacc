@@ -34,7 +34,7 @@ lista* list;
 %token LAB
 %token GOTO
 %token BLOCO 
-%token STMT
+%token STMTS
 %token EXPR
 %token ATTR
 
@@ -55,13 +55,12 @@ lista* list;
 
 program:
 			
-	program bloco		            {}
-	|
+	program bloco		            {$$ = $2; gerar_codigo(list, (no_arvore *) $2);}
+	|                               {$$ = (long int) NULL;}
 	;
 
 bloco: 
-	openc stmts closec              {no_arvore *n = criar_no_bloco((void *) $2);
-                                    $$ = (long int) n;}
+	openc stmts closec              {$$ = $2;}
 	;
 
 openc:
@@ -77,24 +76,18 @@ closec:
     ;
 
 stmts: 
-	stmts stmt                      {no_arvore *n = criar_no_stmt(NULL, (void *) $2);
+	stmts stmt                      {no_arvore *n = criar_no_stmts((void *) $1, (void *) $2);
                                     $$ = (long int) n;}
-	| 	                            {}
+	| 	                            {$$ = (long int) NULL ;}
 	;
 
 stmt:
-	expr		                    {gerar_codigo((lista *) list, (no_arvore *) $1);
-                                    $$ = (long int) $1;}
-    |print                          {gerar_codigo((lista *) list, (no_arvore *) $1);
-                                    $$ = (long int) $1;}
-    |if                             {gerar_codigo((lista *) list, (no_arvore *) $1);
-                                    $$ = (long int) $1;}
-    |while                          {gerar_codigo((lista *) list, (no_arvore *) $1);
-                                    $$ = (long int) $1;}
-    |function                       {gerar_codigo((lista *) list, (no_arvore *) $1);
-                                    $$ = (long int) $1;}
-	|attr			                {gerar_codigo((lista *) list, (no_arvore *) $1);
-                                    $$ = (long int) $1;}
+	expr		                    {$$ = (long int) $1;}
+    |print                          {$$ = (long int) $1;}
+    |if                             {$$ = (long int) $1;}
+    |while                          {$$ = (long int) $1;}
+    |function                       {$$ = (long int) $1;}
+	|attr			                {$$ = (long int) $1;}
 	;
 
 expr:
