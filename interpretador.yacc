@@ -25,6 +25,7 @@ lista* list;
 %token RETURN
 %token LOCAL
 %token FUNCTION
+%token FUNCTION_C
 %token NUMBER
 %token STRING
 %token ID 
@@ -90,7 +91,8 @@ stmt:
                                     $$ = (long int) $1;}
     |while                          {gerar_codigo((lista *) list, (no_arvore *) $1);
                                     $$ = (long int) $1;}
-    |function                       {}
+    |function                       {gerar_codigo((lista *) list, (no_arvore *) $1);
+                                    $$ = (long int) $1;}
 	|attr			                {gerar_codigo((lista *) list, (no_arvore *) $1);
                                     $$ = (long int) $1;}
 	;
@@ -130,7 +132,7 @@ expr:
 					                    $$ = (long int) n;}
                                     }
     | STRING                        {}
-    | functioncall                  {}
+    | functioncall                  {$$ = (long int) $1;}
     | NIL		                    {no_arvore *n = criar_no_expressao(NIL, NULL, NULL); 
 				                    $$ = (long int) n;}
     | TRUE                          {no_arvore *n = criar_no_expressao(TRUE, (void *) $1, NULL); 
@@ -172,32 +174,47 @@ while:
     ;
 
 function:
-    FUNCTION ID '(' _param ')' bloco END  {}
+    FUNCTION ID '(' _param ')' bloco ret END    {simbolo *s = criar_simbolo((char *) $2, 1); 
+                                                inserir_simbolo(topo_pilha(pilha), s);
+                                                inserir_simbolo(tab_c, s);
+                                                no_arvore *n = criar_no_funcao(s, (void *) $4, (void *) $6, (void *) $7);
+                                                $$ = (long int) n;}
     ;
 
 _param:
-    _paramlist                       {}
+    _paramlist                       {$$ = (long int) $1;}
     |                               {}
     ;
 
 _paramlist:
-    ID                              {}
-    |_paramlist ',' ID               {}
+    ID                              {simbolo *s = criar_simbolo((char *) $1, 1); 
+                                    inserir_simbolo(topo_pilha(pilha), s);
+                                    inserir_simbolo(tab_c, s);
+                                    $$ = (long int) s;}
+    |_paramlist ',' ID              {}
     ;
 
+ret:
+    /* empty */                      {$$ = (long int) NULL;}
+    | RETURN expr                    {$$ = (long int) $2;}
 
 functioncall:
-    ID '(' _arg ')'                  {}
+    ID '(' _arg ')'                     {simbolo * s = localizar_simbolo(tab_c, (char *) $1);
+				                        if(s == NULL){
+					                        yyerror("Identificador nao declarado");
+				                        }else  {
+                                            no_arvore *n = criar_no_expressao(FUNCTION_C, s, (void *) $3);
+                                            $$ = (long int) n;}}
     ;
 
 _arg:
-    _arglist                         {}
-    |                               {}
+    _arglist                            {$$ = (long int) $1;}
+    |                                   {}
     ;
 
 _arglist:
-    expr                            {}
-    |_arglist ',' expr               {}
+    expr                                {$$ = (long int) $1;}
+    |_arglist ',' expr                  {}
     ;
 
 print:

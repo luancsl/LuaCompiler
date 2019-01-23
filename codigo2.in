@@ -1,6 +1,15 @@
 
-if(3 != 3)then
-    print(9)
-else
-    print(10)
+
+n = io.read()
+
+fac = 1
+
+while(n > 1)do
+
+    fac = fac * n
+
+    n = n - 1
+
 end
+
+print(fac)

@@ -11,6 +11,7 @@ char * gerar_codigo_expr(lista* list, no_arvore *raiz);
 void gerar_codigo_attr(lista* list, no_arvore *raiz);
 void gerar_codigo_ifelse(lista* list, no_arvore *raiz);
 void gerar_codigo_while(lista* list, no_arvore *raiz);
+void gerar_codigo_funcao(lista* list, no_arvore *raiz);
 void gerar_codigo_print(lista* list, no_arvore *raiz);
 
 #endif

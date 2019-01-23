@@ -43,6 +43,9 @@ void gerar_codigo(lista* list, no_arvore * raiz) {
             case WHILE:
 				gerar_codigo_while(list, raiz);
 				return;
+            case FUNCTION:
+                gerar_codigo_funcao(list, raiz);
+                return;
             case PRINT:
 				gerar_codigo_print(list, raiz);
 				return;
@@ -73,6 +76,14 @@ char * gerar_codigo_expr(lista* list, no_arvore *raiz) {
                 instr* instr = criar_instrucao(ID, addr1, s->lexema, NULL);
                 inserir_instrucao(list, instr);
 				return addr1;}
+
+            case FUNCTION_C:{
+                char* addr1 = gerar_temp();
+                s = (simbolo *) dado->dir;
+                char * addr2 = gerar_codigo_expr(list, (no_arvore *) dado->esq);
+                instr* instr = criar_instrucao(FUNCTION_C, addr1, s->lexema, addr2);
+                inserir_instrucao(list, instr);
+                return addr1;}   
 
 			case ADD:{
 				addr1 = gerar_codigo_expr(list, (no_arvore *) dado->dir);
@@ -337,6 +348,35 @@ void gerar_codigo_while(lista* list, no_arvore *raiz){
     instr = criar_instrucao(LAB, label_fim, NULL, NULL);
     inserir_instrucao(list, instr);
     
+}
+
+void gerar_codigo_funcao(lista* list, no_arvore *raiz){
+    temp_ctr = 1;
+    instr* instr;
+    char* addr;
+    t_funcao *dado = raiz->dado.v_funcao;
+    no_arvore *no_aux;
+    t_bloco * b;
+    t_stmt * st;
+
+    simbolo *s = (simbolo *) dado->id;
+
+    instr = criar_instrucao(LAB, s->lexema, NULL, NULL);
+    inserir_instrucao(list, instr);
+    
+    addr = gerar_codigo_expr(list, (no_arvore *) dado->expr_return);
+
+    instr = criar_instrucao(FUNCTION, s->lexema, addr, NULL);
+    inserir_instrucao(list, instr);
+
+    no_aux = (no_arvore *) dado->stmt_funcao;
+    b = no_aux->dado.v_bloco;
+    no_aux = (no_arvore *) b->stmt;
+    st = no_aux->dado.v_stmt;
+    gerar_codigo(list, (no_arvore *) st->stmt);
+
+    instr = criar_instrucao(RETURN, s->lexema, addr, NULL);
+    inserir_instrucao(list, instr);
 }
 
 void gerar_codigo_print(lista* list, no_arvore *raiz){

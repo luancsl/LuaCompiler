@@ -53,35 +53,36 @@
      RETURN = 269,
      LOCAL = 270,
      FUNCTION = 271,
-     NUMBER = 272,
-     STRING = 273,
-     ID = 274,
-     T_INT = 275,
-     T_REAL = 276,
-     LAB = 277,
-     GOTO = 278,
-     BLOCO = 279,
-     STMT = 280,
-     EXPR = 281,
-     ATTR = 282,
-     TRUE = 283,
-     FALSE = 284,
-     OR = 285,
-     AND = 286,
-     GE = 287,
-     LE = 288,
-     LESS = 289,
-     BIGG = 290,
-     NE = 291,
-     EQ = 292,
-     CONC = 293,
-     SUB = 294,
-     ADD = 295,
-     MOD = 296,
-     DIV = 297,
-     MUL = 298,
-     NOT = 299,
-     UNARY = 300
+     FUNCTION_C = 272,
+     NUMBER = 273,
+     STRING = 274,
+     ID = 275,
+     T_INT = 276,
+     T_REAL = 277,
+     LAB = 278,
+     GOTO = 279,
+     BLOCO = 280,
+     STMT = 281,
+     EXPR = 282,
+     ATTR = 283,
+     TRUE = 284,
+     FALSE = 285,
+     OR = 286,
+     AND = 287,
+     GE = 288,
+     LE = 289,
+     LESS = 290,
+     BIGG = 291,
+     NE = 292,
+     EQ = 293,
+     CONC = 294,
+     SUB = 295,
+     ADD = 296,
+     MOD = 297,
+     DIV = 298,
+     MUL = 299,
+     NOT = 300,
+     UNARY = 301
    };
 #endif
 /* Tokens.  */
@@ -99,35 +100,36 @@
 #define RETURN 269
 #define LOCAL 270
 #define FUNCTION 271
-#define NUMBER 272
-#define STRING 273
-#define ID 274
-#define T_INT 275
-#define T_REAL 276
-#define LAB 277
-#define GOTO 278
-#define BLOCO 279
-#define STMT 280
-#define EXPR 281
-#define ATTR 282
-#define TRUE 283
-#define FALSE 284
-#define OR 285
-#define AND 286
-#define GE 287
-#define LE 288
-#define LESS 289
-#define BIGG 290
-#define NE 291
-#define EQ 292
-#define CONC 293
-#define SUB 294
-#define ADD 295
-#define MOD 296
-#define DIV 297
-#define MUL 298
-#define NOT 299
-#define UNARY 300
+#define FUNCTION_C 272
+#define NUMBER 273
+#define STRING 274
+#define ID 275
+#define T_INT 276
+#define T_REAL 277
+#define LAB 278
+#define GOTO 279
+#define BLOCO 280
+#define STMT 281
+#define EXPR 282
+#define ATTR 283
+#define TRUE 284
+#define FALSE 285
+#define OR 286
+#define AND 287
+#define GE 288
+#define LE 289
+#define LESS 290
+#define BIGG 291
+#define NE 292
+#define EQ 293
+#define CONC 294
+#define SUB 295
+#define ADD 296
+#define MOD 297
+#define DIV 298
+#define MUL 299
+#define NOT 300
+#define UNARY 301
 
 
 

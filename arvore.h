@@ -31,6 +31,13 @@ typedef struct t_while {
     void *stmt_while;   
 } t_while;
 
+typedef struct t_funcao {
+    simbolo *id;
+    void *lista_param;
+    void *stmt_funcao;
+    void *expr_return;   
+} t_funcao;
+
 typedef struct t_stmt {
     struct no_arvore* no_stmt;
     void *stmt;
@@ -52,6 +59,7 @@ typedef union valor_sintatico {
     t_print     *v_print;
     t_ifelse    *v_ifelse;
     t_while     *v_while;
+    t_funcao    *v_funcao;
     t_bloco     *v_bloco;
     t_stmt      *v_stmt;
 } valor_sintatico;
@@ -73,6 +81,9 @@ t_ifelse * criar_ifelse(void *A_expr_cond, void *A_stmt_if, void *A_stmt_else);
 
 no_arvore * criar_no_while(void *A_expr_cond, void *A_stmt_while);
 t_while * criar_while(void *A_expr_cond, void *A_stmt_while);
+
+no_arvore * criar_no_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return);
+t_funcao * criar_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return);
 
 no_arvore * criar_no_stmt(no_arvore *A_no_stmt, void *A_stmt);
 t_stmt * criar_stmt(no_arvore *A_no_stmt, void *A_stmt);

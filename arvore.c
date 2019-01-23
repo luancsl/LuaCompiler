@@ -65,6 +65,23 @@ t_while * criar_while(void *A_expr_cond, void *A_stmt_while){
 	return novo;
 }
 
+
+no_arvore * criar_no_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return){
+	no_arvore *novo = (no_arvore *)  malloc(sizeof(no_arvore));
+	novo->tipoSintatico = FUNCTION;
+	novo->dado.v_funcao =  criar_funcao(A_id, A_lista_param, A_stmt_funcao, A_expr_return);
+	return novo;
+}
+
+t_funcao * criar_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return){ 
+	t_funcao * novo = (t_funcao *) malloc(sizeof(t_funcao));
+	novo->id = A_id; 
+    novo->lista_param = A_lista_param;
+    novo->stmt_funcao = A_stmt_funcao;
+    novo->expr_return = A_expr_return;
+	return novo;
+}
+
 no_arvore * criar_no_stmt(no_arvore *A_no_stmt, void *A_stmt) {
 	no_arvore *novo = (no_arvore *)  malloc(sizeof(no_arvore));
 	novo->tipoSintatico = STMT;

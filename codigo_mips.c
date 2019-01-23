@@ -173,6 +173,31 @@ void gerar_codigo_mips(lista* lista, tabela* tab){
                 printf("syscall\n");
                 printf("\n");
                 break;
+
+            case FUNCTION:
+                printf("addi $sp, $sp, -4\n");
+	            printf("sw $ra, 0($sp)\n");
+
+                printf("%s  %s, %s\n", "sw", "$a0", instr->result);
+        
+                printf("\n");
+                break;
+
+            case RETURN:
+                printf("%s  %s, %s\n", "sw", instr->firstOp, instr->result);
+                printf("addi $sp, $sp, -4\n");
+                printf("jr $ra\n");
+                printf("\n");
+                break;
+
+            case FUNCTION_C:
+                printf("move $a0, %s\n", instr->secondOp);
+                printf("jal %s\n", instr->firstOp);
+                printf("lw $ra, 0($sp)\n");
+                printf("%s  %s, %s\n", "sw", "$v0", instr->firstOp);
+                printf("lw %s, %s\n", instr->result, instr->firstOp);
+                printf("\n");
+                break;
         
             default:
                 break;
