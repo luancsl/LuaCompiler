@@ -83,12 +83,14 @@ void yyerror(char *);
 
 pilha_contexto *pilha;
 tabela *tab_c;
+tabela *tab_f;
 lista* list;
+lista* list_f;
 
 
 
 /* Line 189 of yacc.c  */
-#line 92 "y.tab.c"
+#line 94 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -222,7 +224,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 226 "y.tab.c"
+#line 228 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -530,12 +532,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    58,    58,    59,    63,    67,    73,    79,    81,    85,
-      86,    87,    88,    89,    90,    94,    95,    97,    99,   101,
-     103,   105,   107,   109,   111,   113,   115,   117,   118,   120,
-     127,   128,   129,   131,   133,   135,   137,   139,   141,   146,
-     158,   160,   165,   170,   178,   179,   183,   187,   191,   192,
-     195,   204,   205,   209,   210,   214
+       0,    60,    60,    61,    65,    69,    75,    81,    83,    87,
+      88,    89,    90,    91,    92,    96,    97,    99,   101,   103,
+     105,   107,   109,   111,   113,   115,   117,   119,   120,   122,
+     129,   130,   131,   133,   135,   137,   139,   141,   143,   148,
+     160,   162,   167,   172,   180,   181,   185,   189,   193,   194,
+     197,   206,   207,   211,   212,   216
 };
 #endif
 
@@ -1518,28 +1520,28 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 58 "interpretador.yacc"
-    {(yyval) = (yyvsp[(2) - (2)]); gerar_codigo(list, (no_arvore *) (yyvsp[(2) - (2)]));}
+#line 60 "interpretador.yacc"
+    {(yyval) = (yyvsp[(2) - (2)]); gerar_codigo(list, list_f, (no_arvore *) (yyvsp[(2) - (2)]));}
     break;
 
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 59 "interpretador.yacc"
+#line 61 "interpretador.yacc"
     {(yyval) = (long int) NULL;}
     break;
 
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 63 "interpretador.yacc"
+#line 65 "interpretador.yacc"
     {(yyval) = (yyvsp[(2) - (3)]);}
     break;
 
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 67 "interpretador.yacc"
+#line 69 "interpretador.yacc"
     { tabela *contexto = criar_contexto(topo_pilha(pilha));
 				                        pilha = empilhar_contexto(pilha, contexto);
                                     }
@@ -1548,7 +1550,7 @@ yyreduce:
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 73 "interpretador.yacc"
+#line 75 "interpretador.yacc"
     {/* imprimir_contexto(topo_pilha(pilha)); */
                                         desempilhar_contexto(&pilha); 
                                     }
@@ -1557,7 +1559,7 @@ yyreduce:
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 79 "interpretador.yacc"
+#line 81 "interpretador.yacc"
     {no_arvore *n = criar_no_stmts((void *) (yyvsp[(1) - (2)]), (void *) (yyvsp[(2) - (2)]));
                                     (yyval) = (long int) n;}
     break;
@@ -1565,63 +1567,63 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 81 "interpretador.yacc"
+#line 83 "interpretador.yacc"
     {(yyval) = (long int) NULL ;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 85 "interpretador.yacc"
+#line 87 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 86 "interpretador.yacc"
+#line 88 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 87 "interpretador.yacc"
+#line 89 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 88 "interpretador.yacc"
+#line 90 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 89 "interpretador.yacc"
+#line 91 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 90 "interpretador.yacc"
+#line 92 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 94 "interpretador.yacc"
+#line 96 "interpretador.yacc"
     { (yyval) = (yyvsp[(2) - (3)]); }
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 95 "interpretador.yacc"
+#line 97 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(EQ, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1629,7 +1631,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 97 "interpretador.yacc"
+#line 99 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(LESS, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1637,7 +1639,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 99 "interpretador.yacc"
+#line 101 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(BIGG, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1645,7 +1647,7 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 101 "interpretador.yacc"
+#line 103 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(NE, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1653,7 +1655,7 @@ yyreduce:
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 103 "interpretador.yacc"
+#line 105 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(LE, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1661,7 +1663,7 @@ yyreduce:
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 105 "interpretador.yacc"
+#line 107 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(GE, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1669,7 +1671,7 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 107 "interpretador.yacc"
+#line 109 "interpretador.yacc"
     { no_arvore *n = criar_no_expressao(ADD, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n; }
     break;
@@ -1677,7 +1679,7 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 109 "interpretador.yacc"
+#line 111 "interpretador.yacc"
     { no_arvore *n = criar_no_expressao(SUB, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)]));
                                     (yyval) = (long int) n; }
     break;
@@ -1685,7 +1687,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 111 "interpretador.yacc"
+#line 113 "interpretador.yacc"
     { no_arvore *n = criar_no_expressao(MUL, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)]));
                                     (yyval) = (long int) n; }
     break;
@@ -1693,7 +1695,7 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 113 "interpretador.yacc"
+#line 115 "interpretador.yacc"
     { no_arvore *n = criar_no_expressao(DIV, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)]));
                                     (yyval) = (long int) n; }
     break;
@@ -1701,7 +1703,7 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 115 "interpretador.yacc"
+#line 117 "interpretador.yacc"
     { no_arvore *n = criar_no_expressao(MOD, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)]));
                                     (yyval) = (long int) n; }
     break;
@@ -1709,14 +1711,14 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 117 "interpretador.yacc"
+#line 119 "interpretador.yacc"
     {}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 118 "interpretador.yacc"
+#line 120 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(NUMBER, (void *) (yyvsp[(1) - (1)]), NULL); 
                                     (yyval) = (int) n;}
     break;
@@ -1724,7 +1726,7 @@ yyreduce:
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 120 "interpretador.yacc"
+#line 122 "interpretador.yacc"
     { simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) (yyvsp[(1) - (1)]));
 				                    if(s == NULL){
 					                    yyerror("Identificador nao declarado");
@@ -1737,21 +1739,21 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 127 "interpretador.yacc"
+#line 129 "interpretador.yacc"
     {}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 128 "interpretador.yacc"
+#line 130 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 129 "interpretador.yacc"
+#line 131 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(NIL, NULL, NULL); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1759,7 +1761,7 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 131 "interpretador.yacc"
+#line 133 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(TRUE, (void *) (yyvsp[(1) - (1)]), NULL); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1767,7 +1769,7 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 133 "interpretador.yacc"
+#line 135 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(FALSE, (void *) (yyvsp[(1) - (1)]), NULL); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1775,7 +1777,7 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 135 "interpretador.yacc"
+#line 137 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(NOT, (void *) (yyvsp[(2) - (2)]), NULL); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1783,7 +1785,7 @@ yyreduce:
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 137 "interpretador.yacc"
+#line 139 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(AND, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1791,7 +1793,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 139 "interpretador.yacc"
+#line 141 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(OR, (void *) (yyvsp[(1) - (3)]), (void *) (yyvsp[(3) - (3)])); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1799,7 +1801,7 @@ yyreduce:
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 141 "interpretador.yacc"
+#line 143 "interpretador.yacc"
     {no_arvore *n = criar_no_expressao(READ, NULL, NULL); 
 				                    (yyval) = (long int) n;}
     break;
@@ -1807,7 +1809,7 @@ yyreduce:
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 146 "interpretador.yacc"
+#line 148 "interpretador.yacc"
     { simbolo * s = localizar_simbolo(topo_pilha(pilha), (char *) (yyvsp[(1) - (3)]));
                                     if(s == NULL){
                                         s = criar_simbolo((char *) (yyvsp[(1) - (3)]), 1); 
@@ -1822,7 +1824,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 158 "interpretador.yacc"
+#line 160 "interpretador.yacc"
     {no_arvore *n = criar_no_ifelse((void *) (yyvsp[(2) - (5)]), (void *) (yyvsp[(4) - (5)]), NULL ); 
 				                            (yyval) = (long int) n;}
     break;
@@ -1830,7 +1832,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 160 "interpretador.yacc"
+#line 162 "interpretador.yacc"
     {no_arvore *n = criar_no_ifelse((void *) (yyvsp[(2) - (7)]), (void *) (yyvsp[(4) - (7)]), (void *) (yyvsp[(6) - (7)])); 
 				                            (yyval) = (long int) n;}
     break;
@@ -1838,7 +1840,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 165 "interpretador.yacc"
+#line 167 "interpretador.yacc"
     {no_arvore *n = criar_no_while((void *) (yyvsp[(2) - (5)]), (void *) (yyvsp[(4) - (5)])); 
 				                            (yyval) = (long int) n;}
     break;
@@ -1846,10 +1848,10 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 170 "interpretador.yacc"
+#line 172 "interpretador.yacc"
     {simbolo *s = criar_simbolo((char *) (yyvsp[(2) - (8)]), 1); 
                                                 inserir_simbolo(topo_pilha(pilha), s);
-                                                inserir_simbolo(tab_c, s);
+                                                inserir_simbolo(tab_f, s);
                                                 no_arvore *n = criar_no_funcao(s, (void *) (yyvsp[(4) - (8)]), (void *) (yyvsp[(6) - (8)]), (void *) (yyvsp[(7) - (8)]));
                                                 (yyval) = (long int) n;}
     break;
@@ -1857,21 +1859,21 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 178 "interpretador.yacc"
+#line 180 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 179 "interpretador.yacc"
-    {}
+#line 181 "interpretador.yacc"
+    {(yyval) = (long int) NULL;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 183 "interpretador.yacc"
+#line 185 "interpretador.yacc"
     {simbolo *s = criar_simbolo((char *) (yyvsp[(1) - (1)]), 1); 
                                     inserir_simbolo(topo_pilha(pilha), s);
                                     inserir_simbolo(tab_c, s);
@@ -1881,31 +1883,31 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 187 "interpretador.yacc"
+#line 189 "interpretador.yacc"
     {}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 191 "interpretador.yacc"
+#line 193 "interpretador.yacc"
     {(yyval) = (long int) NULL;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 192 "interpretador.yacc"
+#line 194 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(2) - (2)]);}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 195 "interpretador.yacc"
-    {simbolo * s = localizar_simbolo(tab_c, (char *) (yyvsp[(1) - (4)]));
+#line 197 "interpretador.yacc"
+    {simbolo * s = localizar_simbolo(tab_f, (char *) (yyvsp[(1) - (4)]));
 				                        if(s == NULL){
-					                        yyerror("Identificador nao declarado");
+					                        yyerror("funcao nao declarada");
 				                        }else  {
                                             no_arvore *n = criar_no_expressao(FUNCTION_C, s, (void *) (yyvsp[(3) - (4)]));
                                             (yyval) = (long int) n;}}
@@ -1914,35 +1916,35 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 204 "interpretador.yacc"
+#line 206 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 205 "interpretador.yacc"
-    {}
+#line 207 "interpretador.yacc"
+    {(yyval) = (long int) NULL;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 209 "interpretador.yacc"
+#line 211 "interpretador.yacc"
     {(yyval) = (long int) (yyvsp[(1) - (1)]);}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 210 "interpretador.yacc"
+#line 212 "interpretador.yacc"
     {}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 214 "interpretador.yacc"
+#line 216 "interpretador.yacc"
     {no_arvore *n = criar_no_print((void *) (yyvsp[(3) - (4)])); 
 				                            (yyval) = (long int) n;}
     break;
@@ -1950,7 +1952,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1954 "y.tab.c"
+#line 1956 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2162,7 +2164,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 218 "interpretador.yacc"
+#line 220 "interpretador.yacc"
 
 
 void yyerror(char *s) {
@@ -2174,9 +2176,16 @@ int main(void) {
     tab_c = (tabela *) malloc(sizeof(tabela));
     tab_c->pai = NULL;
     tab_c->primeiro = NULL;
+    tab_f = (tabela *) malloc(sizeof(tabela));
+    tab_f->pai = NULL;
+    tab_f->primeiro = NULL;
     list = (lista *) init_lista();
+    list_f = (lista *) init_lista();
 	yyparse();
-    gerar_codigo_mips(list, tab_c);
+    gerar_header_mips(tab_c);
+    gerar_codigo_mips(list);
+    gerar_end_main();
+    gerar_codigo_mips(list_f);
 	return 0;
 }
 

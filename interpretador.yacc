@@ -12,7 +12,9 @@ void yyerror(char *);
 
 pilha_contexto *pilha;
 tabela *tab_c;
+tabela *tab_f;
 lista* list;
+lista* list_f;
 
 %}
 
@@ -55,7 +57,7 @@ lista* list;
 
 program:
 			
-	program bloco		            {$$ = $2; gerar_codigo(list, (no_arvore *) $2);}
+	program bloco		            {$$ = $2; gerar_codigo(list, list_f, (no_arvore *) $2);}
 	|                               {$$ = (long int) NULL;}
 	;
 
@@ -169,14 +171,14 @@ while:
 function:
     FUNCTION ID '(' _param ')' bloco ret END    {simbolo *s = criar_simbolo((char *) $2, 1); 
                                                 inserir_simbolo(topo_pilha(pilha), s);
-                                                inserir_simbolo(tab_c, s);
+                                                inserir_simbolo(tab_f, s);
                                                 no_arvore *n = criar_no_funcao(s, (void *) $4, (void *) $6, (void *) $7);
                                                 $$ = (long int) n;}
     ;
 
 _param:
     _paramlist                       {$$ = (long int) $1;}
-    |                               {}
+    |                                {$$ = (long int) NULL;}
     ;
 
 _paramlist:
@@ -192,9 +194,9 @@ ret:
     | RETURN expr                    {$$ = (long int) $2;}
 
 functioncall:
-    ID '(' _arg ')'                     {simbolo * s = localizar_simbolo(tab_c, (char *) $1);
+    ID '(' _arg ')'                     {simbolo * s = localizar_simbolo(tab_f, (char *) $1);
 				                        if(s == NULL){
-					                        yyerror("Identificador nao declarado");
+					                        yyerror("funcao nao declarada");
 				                        }else  {
                                             no_arvore *n = criar_no_expressao(FUNCTION_C, s, (void *) $3);
                                             $$ = (long int) n;}}
@@ -202,7 +204,7 @@ functioncall:
 
 _arg:
     _arglist                            {$$ = (long int) $1;}
-    |                                   {}
+    |                                   {$$ = (long int) NULL;}
     ;
 
 _arglist:
@@ -226,8 +228,15 @@ int main(void) {
     tab_c = (tabela *) malloc(sizeof(tabela));
     tab_c->pai = NULL;
     tab_c->primeiro = NULL;
+    tab_f = (tabela *) malloc(sizeof(tabela));
+    tab_f->pai = NULL;
+    tab_f->primeiro = NULL;
     list = (lista *) init_lista();
+    list_f = (lista *) init_lista();
 	yyparse();
-    gerar_codigo_mips(list, tab_c);
+    gerar_header_mips(tab_c);
+    gerar_codigo_mips(list);
+    gerar_end_main();
+    gerar_codigo_mips(list_f);
 	return 0;
 }

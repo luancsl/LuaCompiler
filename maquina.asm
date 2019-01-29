@@ -1,4 +1,6 @@
 .data
+fac: .space 4
+p: .space 4
 n: .space 4
 newline: .asciiz "\n"
 
@@ -6,61 +8,41 @@ newline: .asciiz "\n"
 .globl main
 
 main:
-li $v0, 5
-syscall
-move $t1, $v0
+	li $t2, 5
+	move $a0, $t2
+	jal f_fac
+	sw  $v1, f_fac
+	lw $t1, f_fac
 
-sw  $t1, n
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+
+	li $v0,10
+	syscall
+
+f_fac: 
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	sw  $a0, n
+
+	li $t1, 0
+	sw  $t1, p
+
+	lw $t1, n
+	li $t2, 1
+	sltu  $t3, $t1, $t2
+	xori $t3, $t3, 1
+
+	beq  $t3, $zero, L1
+
+	j L2
 
 L1: 
-
-lw $t1, n
-li $t2, 1
-slt  $t3, $t2, $t1
-
-beq  $t3, $zero, L2
-
-lw $t1, n
-li $t2, 2
-rem  $t3, $t1, $t2
-
-li $t1, 0
-subu  $t2, $t3, $t1
-sltu  $t2, $zero, $t2
-xori  $t2, $t2, 1
-
-beq  $t2, $zero, L3
-
-lw $t1, n
-li $t2, 2
-div  $t3, $t1, $t2
-
-sw  $t3, n
-
-j L4
-
-L3: 
-
-li $t1, 3
-lw $t2, n
-mul  $t3, $t1, $t2
-
-li $t1, 1
-add  $t2, $t3, $t1
-
-sw  $t2, n
-
-L4: 
-
-lw $t1, n
-li $v0, 1
-move $a0, $t1
-syscall
-li $v0, 4
-la $a0, newline
-syscall
-
-j L1
+	li $t1, 1
+	sw  $t1, p
 
 L2: 
-
