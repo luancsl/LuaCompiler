@@ -1,11 +1,11 @@
 
-
+n = io.read()
 
 function fac(n)
 
     if(n >= 1)then
 
-        return 3
+        return n * fac(n - 1)
 
     else
         return 1
@@ -13,4 +13,4 @@ function fac(n)
 
 end
 
-print(fac(5))
+print(fac(n))

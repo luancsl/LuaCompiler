@@ -170,12 +170,12 @@ while:
     ;
 
 function:
-    FUNCTION ID '(' _param ')' bloco END    {simbolo *s = criar_simbolo((char *) $2, 1); 
-                                                inserir_simbolo(topo_pilha(pilha), s);
-                                                inserir_simbolo(tab_f, s);
-                                                no_arvore *n = criar_no_funcao(s, (void *) $4, (void *) $6);
-                                                $$ = (long int) n;}
+    FUNCTION ID {simbolo *s = criar_simbolo((char *) $2, 1);inserir_simbolo(tab_f, s);}'(' _param ')' bloco END    {simbolo * s = localizar_simbolo(tab_f, (char *) $2);
+                                                                                                                    no_arvore *n = criar_no_funcao(s, (void *) $5, (void *) $7);
+                                                                                                                    $$ = (long int) n;}
     ;
+
+
 
 _param:
     _paramlist                       {$$ = (long int) $1;}
@@ -183,10 +183,14 @@ _param:
     ;
 
 _paramlist:
-    ID                              {simbolo *s = criar_simbolo((char *) $1, 1); 
-                                    inserir_simbolo(topo_pilha(pilha), s);
-                                    inserir_simbolo(tab_c, s);
+    ID                              {simbolo * s = localizar_simbolo(tab_c, (char *) $1);
+                                    if(s == NULL){
+                                        s = criar_simbolo((char *) $1, 1); 
+                                        inserir_simbolo(topo_pilha(pilha), s);
+                                        inserir_simbolo(tab_c, s);
+                                    }
                                     $$ = (long int) s;}
+                                    
     |_paramlist ',' ID              {}
     ;
 
