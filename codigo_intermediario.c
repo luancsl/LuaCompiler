@@ -9,6 +9,8 @@
 
 int temp_ctr = 1;
 
+int temp_ctr_s = 1;
+
 int label_ctr = 1;
 
 
@@ -16,6 +18,12 @@ int label_ctr = 1;
 char * gerar_temp() {
 	char buffer[256];
 	sprintf(buffer, "$t%d", temp_ctr++);
+	return strdup(buffer);
+}
+
+char * gerar_temp_s() {
+	char buffer[256];
+	sprintf(buffer, "$s%d", temp_ctr_s++);
 	return strdup(buffer);
 }
 
@@ -110,6 +118,7 @@ char * gerar_codigo_expr(lista* list, no_arvore *raiz) {
                 instr* instr = criar_instrucao(ADD, addr3, addr1, addr2);
                 inserir_instrucao(list, instr);
 				temp_ctr = 1;
+                temp_ctr_s = 1;
                 return addr3;}
 
 			case SUB:{
@@ -120,36 +129,37 @@ char * gerar_codigo_expr(lista* list, no_arvore *raiz) {
                 instr* instr = criar_instrucao(SUB, addr3, addr1, addr2);
                 inserir_instrucao(list, instr);
 				temp_ctr = 1;
+                temp_ctr_s = 1;
                 return addr3;}
 
             case MUL:{
 				addr1 = gerar_codigo_expr(list, (no_arvore *) dado->dir);
 				addr2 = gerar_codigo_expr(list, (no_arvore *) dado->esq);
-				addr3 = gerar_temp(); 				
+				addr3 = gerar_temp_s(); 				
 				/* printf("%s = %s %c %s\n", addr3, addr1, '*', addr2); */
                 instr* instr = criar_instrucao(MUL, addr3, addr1, addr2);
                 inserir_instrucao(list, instr);
-				temp_ctr = 1;
+                temp_ctr = 1;
                 return addr3;}
 
             case DIV:{
 				addr1 = gerar_codigo_expr(list, (no_arvore *) dado->dir);
 				addr2 = gerar_codigo_expr(list, (no_arvore *) dado->esq);
-				addr3 = gerar_temp(); 				
+				addr3 = gerar_temp_s(); 				
 				/* printf("%s = %s %c %s\n", addr3, addr1, '/', addr2); */
                 instr* instr = criar_instrucao(DIV, addr3, addr1, addr2);
                 inserir_instrucao(list, instr);
-				temp_ctr = 1;
+                temp_ctr = 1;
                 return addr3;}
             
             case MOD:{
 				addr1 = gerar_codigo_expr(list, (no_arvore *) dado->dir);
 				addr2 = gerar_codigo_expr(list, (no_arvore *) dado->esq);
-				addr3 = gerar_temp(); 				
+				addr3 = gerar_temp_s(); 				
 				/* printf("%s = %s %c %s\n", addr3, addr1, '%', addr2); */
                 instr* instr = criar_instrucao(MOD, addr3, addr1, addr2);
                 inserir_instrucao(list, instr);
-				temp_ctr = 1;
+                temp_ctr = 1;
                 return addr3;}
 
             case EQ:{

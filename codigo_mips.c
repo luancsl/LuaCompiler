@@ -184,9 +184,12 @@ void gerar_codigo_mips(lista* lista){
                 break;
 
             case FUNCTION:
-                printf("\taddi $sp, $sp, -4\n");
+                printf("\taddi $sp, $sp, -16\n");
 	            printf("\tsw $ra, 0($sp)\n");
-
+                printf("\tsw $t1, 4($sp)\n");
+                printf("\tsw $t2, 8($sp)\n");
+                printf("\tsw $t3, 12($sp)\n");
+                
                 printf("\t%s  %s, %s\n", "sw", "$a0", instr->firstOp);
         
                 printf("\n");
@@ -195,7 +198,10 @@ void gerar_codigo_mips(lista* lista){
             case RETURN:
                 printf("\t%s $v1, %s\n", "move", instr->firstOp);
                 printf("\tlw $ra, 0($sp)\n");
-                printf("\taddi $sp, $sp, 4\n");
+                printf("\tlw $t1, 4($sp)\n");
+                printf("\tlw $t2, 8($sp)\n");
+                printf("\tlw $t3, 12($sp)\n");
+                printf("\taddi $sp, $sp, 16\n");
                 printf("\tjr $ra\n");
                 printf("\n");
                 break;

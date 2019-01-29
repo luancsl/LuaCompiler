@@ -1,10 +1,8 @@
-
-function cd(d)
-
-    return d * 2
+function cd(n)
+    
+    return n * 2
 
 end
 
-p =  cd(5)
 
-print(3 * p)
+print(3 * cd(5))
