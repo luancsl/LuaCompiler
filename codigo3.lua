@@ -1,17 +1,10 @@
 
-function fac(n)
-  p = 0
+function cd(d)
 
-    if(n >= 1)then
-
-        return p
-
-    else
-        p = 2
-    end
-
-    return p
+    return d * 2
 
 end
 
-print(fac(5))
+p =  cd(5)
+
+print(3 * p)

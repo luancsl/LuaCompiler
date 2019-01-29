@@ -1,7 +1,6 @@
 .data
-fac: .space 4
 p: .space 4
-n: .space 4
+d: .space 4
 newline: .asciiz "\n"
 
 .text
@@ -10,12 +9,17 @@ newline: .asciiz "\n"
 main:
 	li $t2, 5
 	move $a0, $t2
-	jal f_fac
-	sw  $v1, f_fac
-	lw $t1, f_fac
+	jal f_cd
+	move  $t1, $v1
+
+	sw  $t1, p
+
+	li $t1, 3
+	lw $t2, p
+	mul  $t3, $t1, $t2
 
 	li $v0, 1
-	move $a0, $t1
+	move $a0, $t3
 	syscall
 	li $v0, 4
 	la $a0, newline
@@ -24,25 +28,17 @@ main:
 	li $v0,10
 	syscall
 
-f_fac: 
+f_cd: 
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
-	sw  $a0, n
+	sw  $a0, d
 
-	li $t1, 0
-	sw  $t1, p
+	lw $t1, d
+	li $t2, 2
+	mul  $t3, $t1, $t2
 
-	lw $t1, n
-	li $t2, 1
-	sltu  $t3, $t1, $t2
-	xori $t3, $t3, 1
+	move $v1, $t3
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+	jr $ra
 
-	beq  $t3, $zero, L1
-
-	j L2
-
-L1: 
-	li $t1, 1
-	sw  $t1, p
-
-L2: 

@@ -203,8 +203,7 @@ void gerar_codigo_mips(lista* lista){
             case FUNCTION_C:
                 printf("\tmove $a0, %s\n", instr->secondOp);
                 printf("\tjal %s\n", instr->firstOp);
-                printf("\t%s  %s, %s\n", "sw", "$v1", instr->firstOp);
-                printf("\tlw %s, %s\n", instr->result, instr->firstOp);
+                printf("\t%s  %s, %s\n", "move", instr->result, "$v1");
                 printf("\n");
                 break;
         
