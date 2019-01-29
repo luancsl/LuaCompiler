@@ -12,6 +12,7 @@ void gerar_codigo_attr(lista* list, no_arvore *raiz);
 void gerar_codigo_ifelse(lista* list, lista* list_f, no_arvore *raiz);
 void gerar_codigo_while(lista* list, lista* list_f, no_arvore *raiz);
 void gerar_codigo_funcao(lista* list, lista* list_f, no_arvore *raiz);
+void gerar_codigo_bloco(lista* list, lista* list_f, no_arvore *raiz);
 void gerar_codigo_print(lista* list, no_arvore *raiz);
 
 #endif

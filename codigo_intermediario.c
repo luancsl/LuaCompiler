@@ -56,6 +56,9 @@ void gerar_codigo(lista* list, lista* list_f, no_arvore * raiz) {
             case PRINT:
 				gerar_codigo_print(list, raiz);
 				return;
+            case BLOCO:
+                gerar_codigo_bloco(list, list_f, raiz);
+                return;
             case STMTS:{
                 t_stmts *s = (t_stmts *) raiz->dado.v_stmts;
                 gerar_codigo(list, list_f, (no_arvore *) s->stmts);
@@ -296,9 +299,9 @@ void gerar_codigo_ifelse(lista* list, lista* list_f, no_arvore *raiz){
     instr = criar_instrucao(IF, addr1, label_else, NULL);
     inserir_instrucao(list, instr);
     
-    if(dado_ifelse->stmt_else != NULL){
+    if(dado_ifelse->bloco_else != NULL){
         label_fim = gerar_label("L");
-        no_aux = (no_arvore *) dado_ifelse->stmt_if;
+        no_aux = (no_arvore *) dado_ifelse->bloco_if;
         gerar_codigo(list, list_f, no_aux);
 
         instr = criar_instrucao(GOTO, label_fim, NULL, NULL);
@@ -307,13 +310,13 @@ void gerar_codigo_ifelse(lista* list, lista* list_f, no_arvore *raiz){
         instr = criar_instrucao(LAB, label_else, NULL, NULL);
         inserir_instrucao(list, instr);
         
-        no_aux = (no_arvore *) dado_ifelse->stmt_else;
+        no_aux = (no_arvore *) dado_ifelse->bloco_else;
         gerar_codigo(list, list_f, no_aux);
 
         instr = criar_instrucao(LAB, label_fim, NULL, NULL);
         inserir_instrucao(list, instr);
     }else{
-        no_aux = (no_arvore *) dado_ifelse->stmt_if;
+        no_aux = (no_arvore *) dado_ifelse->bloco_if;
         gerar_codigo(list, list_f, no_aux);
 
         instr = criar_instrucao(LAB, label_else, NULL, NULL);
@@ -338,7 +341,7 @@ void gerar_codigo_while(lista* list, lista* list_f, no_arvore *raiz){
     instr = criar_instrucao(WHILE, addr1, label_fim, NULL);
     inserir_instrucao(list, instr);
 
-    no_aux = (no_arvore *) dado->stmt_while;
+    no_aux = (no_arvore *) dado->bloco_while;
     gerar_codigo(list, list_f, no_aux);
 
     instr = criar_instrucao(GOTO, label_inicio, NULL, NULL);
@@ -352,7 +355,6 @@ void gerar_codigo_while(lista* list, lista* list_f, no_arvore *raiz){
 void gerar_codigo_funcao(lista* list, lista* list_f, no_arvore *raiz){
     temp_ctr = 1;
     instr* instr;
-    char* addr;
     t_funcao *dado = raiz->dado.v_funcao;
     no_arvore *no_aux;
 
@@ -366,14 +368,10 @@ void gerar_codigo_funcao(lista* list, lista* list_f, no_arvore *raiz){
     instr = criar_instrucao(FUNCTION, s->lexema, p->lexema, NULL);
     inserir_instrucao(list, instr);
 
-    no_aux = (no_arvore *) dado->stmt_funcao;
-    gerar_codigo(list, list, no_aux);
+    no_aux = (no_arvore *) dado->bloco_funcao;
+    gerar_codigo(list, list_f, no_aux);
 
-    if(dado->expr_return != NULL){
-        addr = gerar_codigo_expr(list, (no_arvore *) dado->expr_return);
-        instr = criar_instrucao(RETURN, s->lexema, addr, NULL);
-        inserir_instrucao(list, instr);
-    }
+    
     
 }
 
@@ -387,6 +385,26 @@ void gerar_codigo_print(lista* list, no_arvore *raiz){
     instr* instr = criar_instrucao(PRINT, addr2, NULL, NULL);
     inserir_instrucao(list, instr);
     
+}
+
+
+void gerar_codigo_bloco(lista* list, lista* list_f, no_arvore *raiz){
+    temp_ctr = 1;
+    instr* instr;
+    char* addr;
+    t_bloco *dado = raiz->dado.v_bloco;
+    no_arvore *no_aux;
+
+    no_aux = (no_arvore *) dado->stmts;
+    gerar_codigo(list, list_f, no_aux);
+
+    if(dado->expr_return != NULL){
+        addr = gerar_codigo_expr(list, (no_arvore *) dado->expr_return);
+        instr = criar_instrucao(RETURN, NULL, addr, NULL);
+        inserir_instrucao(list, instr);
+    }
+
+
 }
 
 

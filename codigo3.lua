@@ -1,15 +1,16 @@
 
-
 function fac(n)
-    p = 0
+  p = 0
 
     if(n >= 1)then
 
-        print(p)
+        return p
 
     else
         p = 2
     end
+
+    return p
 
 end
 

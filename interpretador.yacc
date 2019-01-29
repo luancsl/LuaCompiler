@@ -62,7 +62,8 @@ program:
 	;
 
 bloco: 
-	openc stmts closec              {$$ = $2;}
+	openc stmts ret closec          {no_arvore *n = criar_no_bloco((void *) $2, (void *) $3);
+                                    $$ = (long int) n;}
 	;
 
 openc:
@@ -169,10 +170,10 @@ while:
     ;
 
 function:
-    FUNCTION ID '(' _param ')' bloco ret END    {simbolo *s = criar_simbolo((char *) $2, 1); 
+    FUNCTION ID '(' _param ')' bloco END    {simbolo *s = criar_simbolo((char *) $2, 1); 
                                                 inserir_simbolo(topo_pilha(pilha), s);
                                                 inserir_simbolo(tab_f, s);
-                                                no_arvore *n = criar_no_funcao(s, (void *) $4, (void *) $6, (void *) $7);
+                                                no_arvore *n = criar_no_funcao(s, (void *) $4, (void *) $6);
                                                 $$ = (long int) n;}
     ;
 

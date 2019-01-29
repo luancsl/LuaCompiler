@@ -22,20 +22,19 @@ typedef struct t_attr {
 typedef struct t_ifelse {
     //int tipo; //if ou ifelse
     void *expr_cond;
-    void *stmt_if;
-    void *stmt_else;   
+    void *bloco_if;
+    void *bloco_else;   
 } t_ifelse;
 
 typedef struct t_while {
     void *expr_cond;
-    void *stmt_while;   
+    void *bloco_while;   
 } t_while;
 
 typedef struct t_funcao {
     simbolo *id;
     void *lista_param;
-    void *stmt_funcao;
-    void *expr_return;   
+    void *bloco_funcao;   
 } t_funcao;
 
 typedef struct t_stmts {
@@ -44,7 +43,8 @@ typedef struct t_stmts {
 } t_stmts;
 
 typedef struct t_bloco {
-    void *stmt;
+    void *stmts;
+    void *expr_return;
 }t_bloco;
 
 typedef struct t_print {
@@ -76,20 +76,20 @@ t_expr * criar_expressao(int op, void *dir, void *esq);
 no_arvore * criar_no_atribuicao(simbolo *resultado, void *expressao);
 t_attr * criar_atribuicao(simbolo *resultado, void *expressao);
 
-no_arvore * criar_no_ifelse(void *A_expr_cond, void *A_stmt_if, void *A_stmt_else);
-t_ifelse * criar_ifelse(void *A_expr_cond, void *A_stmt_if, void *A_stmt_else);
+no_arvore * criar_no_ifelse(void *A_expr_cond, void *A_bloco_if, void *A_bloco_else);
+t_ifelse * criar_ifelse(void *A_expr_cond, void *A_bloco_if, void *A_bloco_else);
 
-no_arvore * criar_no_while(void *A_expr_cond, void *A_stmt_while);
-t_while * criar_while(void *A_expr_cond, void *A_stmt_while);
+no_arvore * criar_no_while(void *A_expr_cond, void *A_bloco_while);
+t_while * criar_while(void *A_expr_cond, void *A_bloco_while);
 
-no_arvore * criar_no_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return);
-t_funcao * criar_funcao(simbolo *A_id, void *A_lista_param, void *A_stmt_funcao, void *A_expr_return);
+no_arvore * criar_no_funcao(simbolo *A_id, void *A_lista_param, void *A_bloco_funcao);
+t_funcao * criar_funcao(simbolo *A_id, void *A_lista_param, void *A_bloco_funcao);
 
 no_arvore * criar_no_stmts(void *A_stmts, void *A_stmt);
 t_stmts * criar_stmts(void *A_stmts, void *A_stmt);
 
-no_arvore * criar_no_bloco(void *A_stmt);
-t_bloco * criar_bloco(void *A_stmt);
+no_arvore * criar_no_bloco(void *A_stmts, void *A_expr_return);
+t_bloco * criar_bloco(void *A_stmts, void *A_expr_return);
 
 no_arvore * criar_no_print(void *A_expr_print);
 t_print * criar_print(void *A_expr_print);
