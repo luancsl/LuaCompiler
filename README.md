@@ -1,1 +1,1 @@
-# pjcompilador
+# Compilador linguagem Lua
